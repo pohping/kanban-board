@@ -1,6 +1,6 @@
 # Kanban Board
 
-A simple Kanban board built with Next.js (monorepo).
+A Kanban board built with Next.js in monorepo. (In progress)
 
 ## Features
 
