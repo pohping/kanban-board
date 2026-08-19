@@ -1,6 +1,8 @@
 # Kanban Board
 
-A Kanban board built with Next.js in monorepo. (In progress)
+A Kanban board built with Next.js in a monorepo. (In progress)
+
+**Live demo:** [https://kanban-board-web-silk.vercel.app/](https://kanban-board-web-silk.vercel.app/)
 
 ## Features
 
