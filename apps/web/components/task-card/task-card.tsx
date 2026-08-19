@@ -13,7 +13,7 @@ import { MessageCircle, MoreHorizontal, Paperclip } from "lucide-react"
 import { TaskCardMenu } from "./task-card-menu"
 import { TaskCardLabels } from "./task-card-labels"
 import { TaskCardAssignees } from "./task-card-assignees"
-import { TaskCardMeta } from "./taask-card-meta"
+import { TaskCardMeta } from "./task-card-meta"
 
 interface TaskCardProps {
   card: CardWithRelations
