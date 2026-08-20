@@ -20,8 +20,8 @@ export function Board({ data }: BoardProps) {
   const snapshot = useRef(cardsByColumn)
 
   return (
-    <main className="bg-background">
-      <div className="flex gap-3 p-4">
+    <main className="min-h-screen w-full bg-background">
+      <div className="flex h-screen gap-3 p-4">
         <DragDropProvider
           onDragStart={() => {
             snapshot.current = cardsByColumn
