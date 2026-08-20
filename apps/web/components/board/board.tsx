@@ -71,7 +71,6 @@ export function Board({ data }: BoardProps) {
                 </div>
               ),
             })
-            console.log({ cardId, columnId, newPosition })
           }}
         >
           {columns.map((column) => (
