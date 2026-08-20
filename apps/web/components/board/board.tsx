@@ -5,6 +5,8 @@ import { BoardColumn } from "./board-column"
 import { move } from "@dnd-kit/helpers"
 import { DragDropProvider, DragOverlay } from "@dnd-kit/react"
 import { useRef, useState } from "react"
+import { isSortable } from "@dnd-kit/react/sortable"
+import { toast, Toaster } from "@workspace/ui/components/toast"
 
 interface BoardProps {
   data: BoardWithRelations
@@ -30,7 +32,46 @@ export function Board({ data }: BoardProps) {
             setCardsByColumn((items) => move(items, event))
           }}
           onDragEnd={(event) => {
-            if (event.canceled) setCardsByColumn(snapshot.current)
+            if (event.canceled) {
+              setCardsByColumn(snapshot.current)
+              return
+            }
+
+            const { source } = event.operation
+            if (!isSortable(source)) return
+
+            const cardId = String(source.id)
+            const columnId = String(source.group)
+
+            const cards = cardsByColumn[columnId] ?? []
+            const index = cards.findIndex((c) => c.id === cardId)
+            if (index === -1) return
+
+            const prevPos = cards[index - 1]?.position ?? 0
+            const nextPos = cards[index + 1]?.position ?? prevPos + 2
+            const newPosition = (prevPos + nextPos) / 2
+
+            const rollback = snapshot.current
+
+            // reflect the resolved position/columnId in local state
+            setCardsByColumn((current) => ({
+              ...current,
+              [columnId]: (current[columnId] ?? []).map((c) =>
+                c.id === cardId ? { ...c, columnId, position: newPosition } : c
+              ),
+            }))
+
+            toast.add({
+              title: "Card moved",
+              description: (
+                <div className="space-y-2 py-2">
+                  <div>{`Card ID : ${cardId}`}</div>
+                  <div>{`Column ID: ${columnId}`}</div>
+                  <div>{`New Position: ${newPosition}`}</div>
+                </div>
+              ),
+            })
+            console.log({ cardId, columnId, newPosition })
           }}
         >
           {columns.map((column) => (
@@ -41,6 +82,7 @@ export function Board({ data }: BoardProps) {
           ))}
         </DragDropProvider>
       </div>
+      <Toaster />
     </main>
   )
 }
