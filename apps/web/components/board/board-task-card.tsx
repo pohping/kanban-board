@@ -18,8 +18,13 @@ export function BoardTaskCard({ card, columnId, index }: BoardTaskCardProps) {
   })
 
   return (
-    <div ref={ref} className={isDragging ? "opacity-50" : ""}>
-      <TaskCard card={card} />
-    </div>
+    <>
+      <div ref={ref} className={isDragging ? "opacity-50" : ""}>
+        <TaskCard card={card} />
+      </div>
+      {/* <DragOverlay>
+        <TaskCard card={card} />
+      </DragOverlay> */}
+    </>
   )
 }

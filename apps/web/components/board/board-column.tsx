@@ -8,14 +8,22 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card"
 import { BoardTaskCard } from "./board-task-card"
+import { useDroppable } from "@dnd-kit/react"
+import { cn } from "@workspace/ui/lib/utils"
 
 interface BoardColumnProps {
   column: ColumnWithCards
 }
 
 export function BoardColumn({ column }: BoardColumnProps) {
+  const { ref, isDropTarget } = useDroppable({
+    id: column.id,
+    type: "column",
+    collisionPriority: 0,
+  })
+
   return (
-    <Card className="flex-1">
+    <Card ref={ref} className={cn("flex-1", { ["bg-muted"]: isDropTarget })}>
       <CardHeader>
         <CardTitle>{column.title}</CardTitle>
       </CardHeader>
