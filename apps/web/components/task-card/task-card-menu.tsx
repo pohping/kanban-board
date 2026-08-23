@@ -44,9 +44,7 @@ interface TaskCardMenuProps {
 export function TaskCardMenu({ card }: TaskCardMenuProps) {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
-  const form = useForm({ defaultValues: card })
-
-  console.log({ card })
+  const form = useForm({})
 
   useEffect(() => {
     if (editOpen && card) {

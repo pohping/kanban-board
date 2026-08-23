@@ -1,8 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google"
+import { ThemeProvider } from "@wrksz/themes/next"
 
 import "@workspace/ui/globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeHotkey } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
+import { GraphQLProvider } from "@/providers/graphql-provider"
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -28,7 +30,15 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ThemeHotkey />
+          <GraphQLProvider>{children}</GraphQLProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
