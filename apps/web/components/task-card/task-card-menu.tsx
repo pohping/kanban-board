@@ -8,8 +8,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuShortcut,
 } from "@workspace/ui/components/dropdown-menu"
+import { useEffect, useState } from "react"
 import { Button } from "@workspace/ui/components/button"
-import { MoreHorizontal, Pencil, Trash2Icon } from "lucide-react"
+import { MoreHorizontal, Trash2Icon } from "lucide-react"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,12 +22,40 @@ import {
   AlertDialogMedia,
   AlertDialogTitle,
 } from "@workspace/ui/components/alert-dialog"
-import { Dialog } from "@workspace/ui/components/dialog"
-import { useState } from "react"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@workspace/ui/components/dialog"
+import { Field, FieldGroup, FieldLabel } from "@workspace/ui/components/field"
+import { Input } from "@workspace/ui/components/input"
+import { Textarea } from "@workspace/ui/components/textarea"
+import { Card } from "@repo/types"
+import { useForm } from "react-hook-form"
 
-export function TaskCardMenu() {
+interface TaskCardMenuProps {
+  card: Card
+}
+
+export function TaskCardMenu({ card }: TaskCardMenuProps) {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
+  const form = useForm({ defaultValues: card })
+
+  console.log({ card })
+
+  useEffect(() => {
+    if (editOpen && card) {
+      form.reset({
+        title: card.title,
+        description: card.description ?? "",
+      })
+    }
+  }, [editOpen, card, form])
 
   return (
     <>
@@ -41,7 +70,13 @@ export function TaskCardMenu() {
         />
         <DropdownMenuContent>
           <DropdownMenuGroup>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setEditOpen(true)
+              }}
+            >
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 setDeleteOpen(true)
@@ -69,7 +104,32 @@ export function TaskCardMenu() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Dialog></Dialog>
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <form>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Card</DialogTitle>
+              <DialogDescription>
+                Make changes to your task card.
+              </DialogDescription>
+            </DialogHeader>
+            <FieldGroup>
+              <Field>
+                <FieldLabel htmlFor="title">Title</FieldLabel>
+                <Input id="title" {...form.register("title")} />
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="description">Description</FieldLabel>
+                <Textarea id="description" {...form.register("description")} />
+              </Field>
+            </FieldGroup>
+            <DialogFooter>
+              <DialogClose render={<Button variant="outline">Cancel</Button>} />
+              <Button type="submit">Save</Button>
+            </DialogFooter>
+          </DialogContent>
+        </form>
+      </Dialog>
     </>
   )
 }

@@ -28,7 +28,7 @@ export function TaskCard({ card }: TaskCardProps) {
           <CardDescription>{card.description}</CardDescription>
         )}
         <CardAction>
-          <TaskCardMenu />
+          <TaskCardMenu card={card} />
         </CardAction>
       </CardHeader>
 
