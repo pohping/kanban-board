@@ -6,7 +6,8 @@ import { move } from "@dnd-kit/helpers"
 import { DragDropProvider, DragOverlay } from "@dnd-kit/react"
 import { useRef, useState } from "react"
 import { isSortable } from "@dnd-kit/react/sortable"
-import { toast, Toaster } from "@workspace/ui/components/toast"
+import { Toaster } from "@workspace/ui/components/sonner"
+import { toast } from "sonner"
 
 interface BoardProps {
   data: BoardWithRelations
@@ -61,14 +62,13 @@ export function Board({ data }: BoardProps) {
               ),
             }))
 
-            toast.add({
-              title: "Card moved",
+            toast("Card moved", {
               description: (
-                <div className="space-y-2 py-2">
-                  <div>{`Card ID : ${cardId}`}</div>
-                  <div>{`Column ID: ${columnId}`}</div>
-                  <div>{`New Position: ${newPosition}`}</div>
-                </div>
+                <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
+                  <code>
+                    {JSON.stringify({ cardId, columnId, newPosition }, null, 2)}
+                  </code>
+                </pre>
               ),
             })
           }}

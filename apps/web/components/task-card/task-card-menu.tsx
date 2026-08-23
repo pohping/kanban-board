@@ -21,15 +21,18 @@ import {
   AlertDialogMedia,
   AlertDialogTitle,
 } from "@workspace/ui/components/alert-dialog"
+import { Dialog } from "@workspace/ui/components/dialog"
 import { useState } from "react"
 
 export function TaskCardMenu() {
   const [deleteOpen, setDeleteOpen] = useState(false)
+  const [editOpen, setEditOpen] = useState(false)
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger
+          className="cursor-pointer"
           render={
             <Button variant="ghost" size="icon">
               <MoreHorizontal />
@@ -66,6 +69,7 @@ export function TaskCardMenu() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <Dialog></Dialog>
     </>
   )
 }

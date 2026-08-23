@@ -39,11 +39,19 @@ export function TaskCard({ card }: TaskCardProps) {
 
       <CardFooter className="flex items-center justify-between">
         <div className="item-center flex gap-1">
-          <Button variant="ghost" size="sm" className="gap-1 px-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="cursor-pointer gap-1 px-2"
+          >
             <MessageCircle className="size-3.5" />
             <span className="text-xs">{card.comments.length}</span>
           </Button>
-          <Button variant="ghost" size="sm" className="gap-1 px-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="cursor-pointer gap-1 px-2"
+          >
             <Paperclip className="size-3.5" />
             <span className="text-xs">{card.attachments.length}</span>
           </Button>
