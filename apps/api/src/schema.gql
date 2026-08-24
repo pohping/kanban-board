@@ -3,6 +3,7 @@
 # ------------------------------------------------------
 
 type Card {
+  assignees: [CardAssignee!]!
   columnId: ID!
   createdAt: DateTime!
   createdBy: ID!
@@ -12,6 +13,13 @@ type Card {
   position: Int!
   title: String!
   updatedAt: DateTime!
+}
+
+type CardAssignee {
+  assignedAt: DateTime!
+  cardId: ID!
+  user: User!
+  userId: ID!
 }
 
 """

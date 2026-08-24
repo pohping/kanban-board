@@ -45,5 +45,6 @@ export class Card {
   @Field()
   updatedAt!: Date;
 
-  // @Field(() => [CardAssign])
+  @Field(() => [CardAssignee])
+  assignees!: CardAssignee[];
 }

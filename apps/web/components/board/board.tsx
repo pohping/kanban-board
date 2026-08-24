@@ -35,7 +35,7 @@ export function Board({ data }: BoardProps) {
   const snapshot = useRef(cardsByColumn)
 
   return (
-    <main className="min-h-screen w-full bg-background">
+    <main className="container mx-auto min-h-screen w-full bg-background">
       <div className="flex h-screen gap-3 p-4">
         <DragDropProvider
           onDragStart={() => {

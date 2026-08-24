@@ -5,6 +5,7 @@ import "@workspace/ui/globals.css"
 import { ThemeHotkey } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
 import { GraphQLProvider } from "@/providers/graphql-provider"
+import { Navbar } from "@/components/navbar/navbar"
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
