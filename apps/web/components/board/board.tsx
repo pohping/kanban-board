@@ -8,12 +8,24 @@ import { useRef, useState } from "react"
 import { isSortable } from "@dnd-kit/react/sortable"
 import { Toaster } from "@workspace/ui/components/sonner"
 import { toast } from "sonner"
+import { GET_CARDS_BY_COLUMN } from "@/features/cards/graphql/queries"
+import { useQuery } from "@apollo/client/react"
 
 interface BoardProps {
   data: BoardWithRelations
 }
 
 export function Board({ data }: BoardProps) {
+  const {
+    data: cards,
+    loading,
+    error,
+  } = useQuery(GET_CARDS_BY_COLUMN, {
+    variables: { columnId: "1a925a2f-7f4d-43bd-b552-d208f0f375c2" },
+  })
+
+  console.log({ cards })
+
   const [columns] = useState(() =>
     [...data.columns].sort((a, b) => a.position - b.position)
   )

@@ -27,13 +27,13 @@ export class Card {
   @Field()
   title!: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   description?: string | null;
 
   @Field(() => Int)
   position!: number;
 
-  @Field({ nullable: true })
+  @Field(() => Date, { nullable: true })
   dueDate?: Date | null;
 
   @Field(() => ID)

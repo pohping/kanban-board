@@ -1,0 +1,31 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Card {
+  columnId: ID!
+  createdAt: DateTime!
+  createdBy: ID!
+  description: String
+  dueDate: DateTime
+  id: ID!
+  position: Int!
+  title: String!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  cardsByColumn(columnId: ID!): [Card!]!
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  username: String!
+}

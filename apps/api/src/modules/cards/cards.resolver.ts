@@ -5,7 +5,10 @@ import {
   type AuthUser,
   CurrentUser,
 } from '../../common/decorators/user.decorator';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../../common/guards/gql-auth.guard';
 
+@UseGuards(GqlAuthGuard)
 @Resolver(() => Card)
 export class CardsResolver {
   constructor(private cardsService: CardsService) {}
