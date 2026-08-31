@@ -19,6 +19,7 @@ export default function LoginPage() {
           <Image
             src="/policy.svg"
             alt="calendar"
+            priority
             className="object-contain"
             fill
           />
