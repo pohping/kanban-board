@@ -6,3 +6,7 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
   msw: false
+  prisma: true
+  "@prisma/engines": true
+  bcrypt: true
+  esbuild: true
