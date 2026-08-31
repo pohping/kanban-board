@@ -2,29 +2,32 @@ import { LoginForm } from "@/features/auth/components/login-form"
 import { Brand } from "@/components/brand/brand"
 import Image from "next/image"
 import { GuestOnly } from "@/features/auth/components/guest-only"
+import { Suspense } from "react"
 
 export default function LoginPage() {
   return (
-    <GuestOnly>
-      <div className="grid min-h-svh lg:grid-cols-[55%_45%]">
-        <div className="flex flex-col gap-4 p-6 md:p-10">
-          <Brand />
-          <div className="flex flex-1 items-center justify-center">
-            <div className="w-full max-w-xs">
-              <LoginForm />
+    <Suspense fallback={null}>
+      <GuestOnly>
+        <div className="grid min-h-svh lg:grid-cols-[55%_45%]">
+          <div className="flex flex-col gap-4 p-6 md:p-10">
+            <Brand />
+            <div className="flex flex-1 items-center justify-center">
+              <div className="w-full max-w-xs">
+                <LoginForm />
+              </div>
             </div>
           </div>
+          <div className="relative w-full overflow-hidden bg-slate-200">
+            <Image
+              src="/policy.svg"
+              alt="calendar"
+              priority
+              className="object-contain"
+              fill
+            />
+          </div>
         </div>
-        <div className="relative w-full overflow-hidden bg-slate-200">
-          <Image
-            src="/policy.svg"
-            alt="calendar"
-            priority
-            className="object-contain"
-            fill
-          />
-        </div>
-      </div>
-    </GuestOnly>
+      </GuestOnly>
+    </Suspense>
   )
 }
