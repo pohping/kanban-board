@@ -18,6 +18,7 @@
     "@hookform/resolvers": "^5.9.1",
     "@repo/types": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "@workspace/graphql": "workspace:*",
     "@wrksz/themes": "1.2.0",
     "graphql": "^17.0.2",
     "lucide-react": "^1.31.0",

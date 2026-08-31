@@ -1,13 +1,12 @@
-import { Board } from "@/components/board/board"
 import { Navbar } from "@/components/navbar/navbar"
-import { mockBoardWithRelations } from "@/mock-data"
+import { RequireAuth } from "@/features/auth/components/require-auth"
+import { MyBoards } from "@/features/boards/components/my-boards"
 
 export default function Page() {
   return (
-    <div>
+    <RequireAuth>
       <Navbar />
-
-      <Board data={mockBoardWithRelations} />
-    </div>
+      <MyBoards />
+    </RequireAuth>
   )
 }

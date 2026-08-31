@@ -2,15 +2,67 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AssignCardInput {
+  cardId: String!
+  userId: String!
+}
+
+type Attachment {
+  cardId: ID!
+  fileUrl: String!
+  filename: String!
+  id: ID!
+  uploadedAt: DateTime!
+  uploadedBy: ID!
+}
+
+type AuthPayload {
+  user: User!
+}
+
+type Board {
+  columns: [Column!]!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  labels: [Label!]!
+  members: [BoardMember!]!
+  owner: User!
+  ownerId: ID!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type BoardMember {
+  boardId: ID!
+  joinedAt: DateTime!
+  role: BoardRole!
+  user: User!
+  userId: ID!
+}
+
+"""A member's permission level on a board"""
+enum BoardRole {
+  admin
+  member
+  owner
+}
+
 type Card {
   assignees: [CardAssignee!]!
+  attachmentCount: Int!
+  attachments: [Attachment!]!
   columnId: ID!
+  commentCount: Int!
+  comments: [Comment!]!
   createdAt: DateTime!
   createdBy: ID!
+  createdByUser: User!
   description: String
   dueDate: DateTime
   id: ID!
-  position: Int!
+  labels: [Label!]!
+  position: Float!
   title: String!
   updatedAt: DateTime!
 }
@@ -22,13 +74,106 @@ type CardAssignee {
   userId: ID!
 }
 
+input CardLabelInput {
+  cardId: String!
+  labelId: String!
+}
+
+input ChangePasswordInput {
+  currentPassword: String!
+  newPassword: String!
+}
+
+type Column {
+  boardId: ID!
+  cards: [Card!]!
+  createdAt: DateTime!
+  id: ID!
+  position: Int!
+  title: String!
+}
+
+type Comment {
+  cardId: ID!
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  user: User!
+}
+
+input CreateCardInput {
+  columnId: String!
+  description: String
+  dueDate: String
+  position: Float
+  title: String!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
+type Label {
+  boardId: ID!
+  color: String!
+  id: ID!
+  name: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input MoveCardInput {
+  cardId: String!
+  position: Float!
+  targetColumnId: String!
+}
+
+type Mutation {
+  addCardLabel(input: CardLabelInput!): Boolean!
+  assignCard(input: AssignCardInput!): CardAssignee!
+  changePassword(input: ChangePasswordInput!): Boolean!
+  createCard(input: CreateCardInput!): Card!
+  deleteCard(id: ID!): Boolean!
+  login(input: LoginInput!): AuthPayload!
+  logout: Boolean!
+  moveCard(input: MoveCardInput!): Card!
+  register(input: CreateUserInput!): AuthPayload!
+  removeCardLabel(input: CardLabelInput!): Boolean!
+  unassignCard(input: AssignCardInput!): Boolean!
+  updateCard(input: UpdateCardInput!): Card!
+  updateProfile(input: UpdateUserInput!): User!
+}
+
 type Query {
+  board(id: ID!): Board!
+  card(id: ID!): Card!
   cardsByColumn(columnId: ID!): [Card!]!
+  me: User!
+  myBoards: [Board!]!
+  user(id: ID!): User!
+}
+
+input UpdateCardInput {
+  description: String
+  dueDate: String
+  id: String!
+  position: Float
+  title: String
+}
+
+input UpdateUserInput {
+  email: String
+  username: String
 }
 
 type User {

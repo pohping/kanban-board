@@ -6,6 +6,7 @@ import { ThemeHotkey } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
 import { GraphQLProvider } from "@/providers/graphql-provider"
 import { Navbar } from "@/components/navbar/navbar"
+import { Toaster } from "@workspace/ui/components/toast"
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -38,7 +39,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ThemeHotkey />
-          <GraphQLProvider>{children}</GraphQLProvider>
+          <GraphQLProvider>
+            <Toaster>{children}</Toaster>
+          </GraphQLProvider>
         </ThemeProvider>
       </body>
     </html>

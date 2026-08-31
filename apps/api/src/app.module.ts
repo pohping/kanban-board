@@ -7,21 +7,31 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { CardsModule } from './modules/cards/cards.module';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { ColumnsModule } from './modules/columns/columns.module';
+import { BoardsModule } from './modules/boards/boards.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       graphiql: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: process.env.NODE_ENV !== 'production',
-      context: ({ req }: { req: Request }) => ({ req }),
+      context: ({ req, res }: { req: Request; res: Response }) => ({
+        req,
+        res,
+      }),
     }),
-
-    ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
+    UsersModule,
+    AuthModule,
     CardsModule,
+    ColumnsModule,
+    BoardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

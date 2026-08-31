@@ -1,20 +1,9 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, Int, ObjectType } from '@nestjs/graphql';
 import { User } from '../../users/entities/user.entity';
-
-@ObjectType()
-export class CardAssignee {
-  @Field(() => ID)
-  cardId!: string;
-
-  @Field(() => ID)
-  userId!: string;
-
-  @Field(() => User)
-  user!: User;
-
-  @Field()
-  assignedAt!: Date;
-}
+import { Label } from '../../labels/entities/label.entity';
+import { Attachment } from '../../attachments/entities/attachment.entity';
+import { Comment } from '../../comments/entities/comment.entity';
+import { CardAssignee } from './card-assignee.entity';
 
 @ObjectType()
 export class Card {
@@ -30,7 +19,7 @@ export class Card {
   @Field(() => String, { nullable: true })
   description?: string | null;
 
-  @Field(() => Int)
+  @Field(() => Float)
   position!: number;
 
   @Field(() => Date, { nullable: true })
@@ -45,6 +34,28 @@ export class Card {
   @Field()
   updatedAt!: Date;
 
+  /* ------------------------------ Cheap counts ------------------------------ */
+
+  @Field(() => Int)
+  commentCount!: number;
+
+  @Field(() => Int)
+  attachmentCount!: number;
+
+  /* ----------------------- Populated by @ResolveField ----------------------- */
+
   @Field(() => [CardAssignee])
   assignees!: CardAssignee[];
+
+  @Field(() => [Label])
+  labels!: Label[];
+
+  @Field(() => [Comment])
+  comments!: Comment[];
+
+  @Field(() => [Attachment])
+  attachments!: Attachment[];
+
+  @Field(() => User)
+  createdByUser!: User;
 }
