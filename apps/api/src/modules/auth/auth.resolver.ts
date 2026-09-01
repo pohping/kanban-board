@@ -39,7 +39,7 @@ export class AuthResolver {
     context.res.clearCookie('access_token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'none',
       path: '/',
     });
 
@@ -50,7 +50,7 @@ export class AuthResolver {
     res.cookie('access_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'none',
       path: '/',
       maxAge: Number(process.env.JWT_EXPIRES_IN) || 15 * 60 * 1000,
     });
