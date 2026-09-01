@@ -5,9 +5,14 @@ import { MY_BOARDS } from "../graphql/queries"
 import { Card, CardContent, CardFooter } from "@workspace/ui/components/card"
 import { Plus } from "lucide-react"
 import Link from "next/link"
+import { PageLoader } from "@/components/page-loader/page-loader"
 
 export function MyBoards() {
-  const { data } = useQuery(MY_BOARDS)
+  const { data, loading } = useQuery(MY_BOARDS)
+
+  if (loading) {
+    return <PageLoader />
+  }
 
   return (
     <div className="container mx-auto">
