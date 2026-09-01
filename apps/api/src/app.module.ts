@@ -18,7 +18,11 @@ import { BoardsModule } from './modules/boards/boards.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       graphiql: true,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile:
+        process.env.NODE_ENV === 'development'
+          ? join(process.cwd(), 'src/schema.gql')
+          : true,
       sortSchema: true,
       playground: process.env.NODE_ENV !== 'production',
       context: ({ req, res }: { req: Request; res: Response }) => ({
