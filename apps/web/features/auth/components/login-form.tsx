@@ -30,6 +30,10 @@ export function LoginForm() {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get("callbackUrl") || "/"
   const form = useForm<LoginInput>({
+    defaultValues: {
+      email: process.env.NEXT_PUBLIC_TEST_USER_EMAIL,
+      password: process.env.NEXT_PUBLIC_TEST_USER_PASSWORD,
+    },
     resolver: zodResolver(loginSchema),
   })
   const [login, { loading, error }] = useMutation(LOGIN)
