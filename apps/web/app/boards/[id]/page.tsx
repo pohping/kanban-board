@@ -12,8 +12,8 @@ export default function BoardPage({
   const { id } = use(params)
 
   return (
-    <RequireAuth>
-      <BoardContent id={id} />
-    </RequireAuth>
+    <BoardContent id={id} />
+    // <RequireAuth>
+    // </RequireAuth>
   )
 }

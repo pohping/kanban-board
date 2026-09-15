@@ -4,6 +4,7 @@ import { AuthPayload } from './entities/auth-payload.entity';
 import { CreateUserInput } from '../users/dto/create-user.input';
 import { LoginInput } from './dto/login.input';
 import { Response } from 'express';
+import ms from 'ms';
 
 @Resolver()
 export class AuthResolver {
@@ -52,7 +53,8 @@ export class AuthResolver {
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/',
-      maxAge: Number(process.env.JWT_EXPIRES_IN) || 15 * 60 * 1000,
+      domain: process.env.COOKIE_DOMAIN,
+      maxAge: ms((process.env.JWT_EXPIRES_IN as ms.StringValue) ?? '7d'),
     });
   }
 }

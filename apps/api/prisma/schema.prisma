@@ -74,7 +74,7 @@ model Column {
   id        String   @id @default(uuid())
   boardId   String
   title     String
-  position  Int
+  position  Float
   createdAt DateTime @default(now())
 
   board Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)

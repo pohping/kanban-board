@@ -5,7 +5,6 @@ import "@workspace/ui/globals.css"
 import { ThemeHotkey } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
 import { GraphQLProvider } from "@/providers/graphql-provider"
-import { Navbar } from "@/components/navbar/navbar"
 import { Toaster } from "@workspace/ui/components/toast"
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
@@ -32,17 +31,19 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <ThemeHotkey />
-          <GraphQLProvider>
-            <Toaster>{children}</Toaster>
-          </GraphQLProvider>
-        </ThemeProvider>
+        <div className="min-h-screen bg-[#f5f5f5] bg-[url('/patterns/repeated-square.png')] bg-repeat">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+            <ThemeHotkey />
+            <GraphQLProvider>
+              <Toaster>{children}</Toaster>
+            </GraphQLProvider>
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   )

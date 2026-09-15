@@ -10,23 +10,35 @@ import {
 import { useDragDropMonitor, useDroppable } from "@dnd-kit/react"
 import { cn } from "@workspace/ui/lib/utils"
 import { useState } from "react"
-import { isSortable } from "@dnd-kit/react/sortable"
+import { isSortable, useSortable } from "@dnd-kit/react/sortable"
 import { TaskCard } from "@/features/task-cards/components/task-card"
 import { ColumnData } from "../types"
 import { Button } from "@workspace/ui/components/button"
 import { Plus } from "lucide-react"
 import { CreateTaskCard } from "@/features/task-cards/components/create-task-card"
+import { CollisionPriority } from "@dnd-kit/abstract"
 
 interface ColumnProps {
   column: ColumnData
+  index: number
 }
 
-export function Column({ column }: ColumnProps) {
+export function Column({ column, index }: ColumnProps) {
   const [openCreateCard, setOpenCreateCard] = useState(false)
-  const { ref } = useDroppable({
-    id: column.id,
+
+  const { ref, isDragging } = useSortable({
+    id: `col-sortable:${column.id}`,
+    index,
+    group: "board",
     type: "column",
-    collisionPriority: 0,
+    accept: "column",
+  })
+
+  const { ref: dropRef } = useDroppable({
+    id: column.id,
+    type: "column-content",
+    accept: "card",
+    collisionPriority: CollisionPriority.Low,
   })
 
   const [isOver, setIsOver] = useState(false)
@@ -46,8 +58,8 @@ export function Column({ column }: ColumnProps) {
   return (
     <Card
       ref={ref}
-      className={cn("flex max-h-[80vh] min-h-0 flex-1 flex-col", {
-        ["bg-muted"]: isOver,
+      className={cn("flex max-h-[80vh] min-h-0 flex-1 flex-col gap-0", {
+        ["opacity-50"]: isDragging,
       })}
     >
       <CardHeader>
@@ -59,15 +71,22 @@ export function Column({ column }: ColumnProps) {
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="flex-1 space-y-4 overflow-y-auto p-2">
-        {column.cards.map((card, idx) => (
-          <TaskCard
-            key={card.id}
-            card={card}
-            columnId={column.id}
-            index={idx}
-          />
-        ))}
+      <CardContent className="flex-1 p-2">
+        <div
+          ref={dropRef}
+          className={cn("h-full space-y-4 overflow-y-auto p-2", {
+            ["bg-muted"]: isOver,
+          })}
+        >
+          {column.cards.map((card, idx) => (
+            <TaskCard
+              key={card.id}
+              card={card}
+              columnId={column.id}
+              index={idx}
+            />
+          ))}
+        </div>
       </CardContent>
       <CardFooter className="p-1">
         <Button

@@ -3,6 +3,7 @@ import { GqlAuthGuard } from '../../common/guards/gql-auth.guard';
 import {
   Args,
   ID,
+  Mutation,
   Parent,
   Query,
   ResolveField,
@@ -18,6 +19,7 @@ import { User } from '../users/entities/user.entity';
 import { BoardMember } from './entities/board-member.entity';
 import { Label } from '../labels/entities/label.entity';
 import { Column } from '../columns/entities/column.entity';
+import { CreateBoardInput } from './dto/create-board.input';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(() => Board)
@@ -35,6 +37,14 @@ export class BoardsResolver {
   @Query(() => [Board], { name: 'myBoards' })
   myBoards(@CurrentUser() user: AuthUser) {
     return this.boardsService.findMyBoards(user.id);
+  }
+
+  @Mutation(() => Board)
+  createBoard(
+    @Args('input') input: CreateBoardInput,
+    @CurrentUser() user: AuthUser,
+  ) {
+    return this.boardsService.create(input, user.id);
   }
 
   @ResolveField(() => User)

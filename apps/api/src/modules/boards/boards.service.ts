@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateBoardInput } from './dto/create-board.input';
 
 @Injectable()
 export class BoardsService {
@@ -11,12 +12,26 @@ export class BoardsService {
 
   private async assertMember(boardId: string, userId: string) {
     const membership = await this.prisma.boardMember.findUnique({
-      where: { boardId_userId: { boardId: boardId, userId } },
+      where: { boardId_userId: { boardId, userId } },
     });
     if (!membership) {
       throw new ForbiddenException('You are not a member of this board');
     }
     return membership;
+  }
+
+  async create(input: CreateBoardInput, userId: string) {
+    const board = await this.prisma.board.create({
+      data: {
+        title: input.title,
+        description: input.description ?? null,
+        ownerId: userId,
+        members: {
+          create: { userId, role: 'owner' },
+        },
+      },
+    });
+    return board;
   }
 
   async findOne(id: string, userId: string) {
@@ -51,7 +66,7 @@ export class BoardsService {
   getColumns(boardId: string) {
     return this.prisma.column.findMany({
       where: { boardId },
-      orderBy: { position: 'asc' },
+      orderBy: [{ position: 'asc' }, { createdAt: 'asc' }],
     });
   }
 

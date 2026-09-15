@@ -81,8 +81,6 @@ export function CreateTaskCard({
     }
   }
 
-  // console.log(form.getErrors())
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>

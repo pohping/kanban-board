@@ -29,6 +29,23 @@ import { BoardsModule } from './modules/boards/boards.module';
         req,
         res,
       }),
+      formatError: (formattedError, error: any) => {
+        const status =
+          error?.extensions?.originalError?.statusCode ??
+          error?.originalError?.status ??
+          error?.originalError?.getStatus?.();
+
+        let code = formattedError.extensions?.code;
+        if (status === 401) code = 'UNAUTHENTICATED';
+        else if (status === 403) code = 'FORBIDDEN';
+        else if (status === 404) code = 'NOT_FOUND';
+        else if (status === 409) code = 'CONFLICT';
+
+        return {
+          message: formattedError.message,
+          extensions: { ...formattedError.extensions, code },
+        };
+      },
     }),
     PrismaModule,
     UsersModule,

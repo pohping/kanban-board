@@ -101,11 +101,21 @@ type Comment {
   user: User!
 }
 
+input CreateBoardInput {
+  description: String
+  title: String!
+}
+
 input CreateCardInput {
   columnId: String!
   description: String
   dueDate: String
   position: Float
+  title: String!
+}
+
+input CreateColumnInput {
+  boardId: String!
   title: String!
 }
 
@@ -138,19 +148,29 @@ input MoveCardInput {
   targetColumnId: String!
 }
 
+input MoveColumnInput {
+  columnId: String!
+  position: Float!
+}
+
 type Mutation {
   addCardLabel(input: CardLabelInput!): Boolean!
   assignCard(input: AssignCardInput!): CardAssignee!
   changePassword(input: ChangePasswordInput!): Boolean!
+  createBoard(input: CreateBoardInput!): Board!
   createCard(input: CreateCardInput!): Card!
+  createColumn(input: CreateColumnInput!): Column!
   deleteCard(id: ID!): Boolean!
+  deleteColumn(id: ID!): Boolean!
   login(input: LoginInput!): AuthPayload!
   logout: Boolean!
   moveCard(input: MoveCardInput!): Card!
+  moveColumn(input: MoveColumnInput!): Column!
   register(input: CreateUserInput!): AuthPayload!
   removeCardLabel(input: CardLabelInput!): Boolean!
   unassignCard(input: AssignCardInput!): Boolean!
   updateCard(input: UpdateCardInput!): Card!
+  updateColumn(input: UpdateColumnInput!): Column!
   updateProfile(input: UpdateUserInput!): User!
 }
 
@@ -169,6 +189,11 @@ input UpdateCardInput {
   id: String!
   position: Float
   title: String
+}
+
+input UpdateColumnInput {
+  id: String!
+  title: String!
 }
 
 input UpdateUserInput {

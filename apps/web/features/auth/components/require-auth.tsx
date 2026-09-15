@@ -13,17 +13,19 @@ export function RequireAuth({ children }: PropsWithChildren) {
     errorPolicy: "all",
   })
 
+  const isUnauthenticated = !loading && (!data?.me || !!error)
+
   useEffect(() => {
-    if (!loading && (!data?.me || error)) {
+    if (isUnauthenticated) {
       router.replace("/login")
     }
-  }, [data, loading, router, error])
+  }, [isUnauthenticated, router])
 
   if (loading) {
     return <PageLoader />
   }
 
-  if (!data?.me || error) {
+  if (isUnauthenticated) {
     return null
   }
 

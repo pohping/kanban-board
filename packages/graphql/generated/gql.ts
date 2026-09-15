@@ -17,8 +17,11 @@ type Documents = {
     "\n  mutation login($loginInput: LoginInput!) {\n    login(input: $loginInput) {\n      user {\n        id\n        username\n      }\n    }\n  }\n": typeof types.LoginDocument,
     "\n  mutation Logout {\n    logout\n  }\n": typeof types.LogoutDocument,
     "\n  query Me {\n    me {\n      id\n      username\n    }\n  }\n": typeof types.MeDocument,
+    "\n  mutation CreateBoard($input: CreateBoardInput!) {\n    createBoard(input: $input) {\n      title\n      description\n    }\n  }\n": typeof types.CreateBoardDocument,
     "\n  query MyBoards {\n    myBoards {\n      id\n      title\n      description\n      columns {\n        cards {\n          id\n        }\n      }\n    }\n  }\n": typeof types.MyBoardsDocument,
     "\n  query GetBoard($id: ID!) {\n    board(id: $id) {\n      id\n      title\n      description\n      labels {\n        id\n        name\n        color\n      }\n      members {\n        user {\n          id\n          username\n        }\n      }\n      columns {\n        id\n        title\n        position\n        cards {\n          id\n          title\n          description\n          position\n          dueDate\n          commentCount\n          attachmentCount\n          assignees {\n            user {\n              id\n              username\n            }\n          }\n          labels {\n            id\n            name\n            color\n          }\n        }\n      }\n    }\n  }\n": typeof types.GetBoardDocument,
+    "\n  mutation CreateColumn($input: CreateColumnInput!) {\n    createColumn(input: $input) {\n      title\n    }\n  }\n": typeof types.CreateColumnDocument,
+    "\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n": typeof types.MoveColumnDocument,
     "\n  mutation CreateCard($input: CreateCardInput!) {\n    createCard(input: $input) {\n      id\n    }\n  }\n": typeof types.CreateCardDocument,
     "\n  mutation UpdateCard($input: UpdateCardInput!) {\n    updateCard(input: $input) {\n      id\n    }\n  }\n": typeof types.UpdateCardDocument,
     "\n  mutation MoveCard($input: MoveCardInput!) {\n    moveCard(input: $input) {\n      id\n      position\n      columnId\n    }\n  }\n": typeof types.MoveCardDocument,
@@ -33,8 +36,11 @@ const documents: Documents = {
     "\n  mutation login($loginInput: LoginInput!) {\n    login(input: $loginInput) {\n      user {\n        id\n        username\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  mutation Logout {\n    logout\n  }\n": types.LogoutDocument,
     "\n  query Me {\n    me {\n      id\n      username\n    }\n  }\n": types.MeDocument,
+    "\n  mutation CreateBoard($input: CreateBoardInput!) {\n    createBoard(input: $input) {\n      title\n      description\n    }\n  }\n": types.CreateBoardDocument,
     "\n  query MyBoards {\n    myBoards {\n      id\n      title\n      description\n      columns {\n        cards {\n          id\n        }\n      }\n    }\n  }\n": types.MyBoardsDocument,
     "\n  query GetBoard($id: ID!) {\n    board(id: $id) {\n      id\n      title\n      description\n      labels {\n        id\n        name\n        color\n      }\n      members {\n        user {\n          id\n          username\n        }\n      }\n      columns {\n        id\n        title\n        position\n        cards {\n          id\n          title\n          description\n          position\n          dueDate\n          commentCount\n          attachmentCount\n          assignees {\n            user {\n              id\n              username\n            }\n          }\n          labels {\n            id\n            name\n            color\n          }\n        }\n      }\n    }\n  }\n": types.GetBoardDocument,
+    "\n  mutation CreateColumn($input: CreateColumnInput!) {\n    createColumn(input: $input) {\n      title\n    }\n  }\n": types.CreateColumnDocument,
+    "\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n": types.MoveColumnDocument,
     "\n  mutation CreateCard($input: CreateCardInput!) {\n    createCard(input: $input) {\n      id\n    }\n  }\n": types.CreateCardDocument,
     "\n  mutation UpdateCard($input: UpdateCardInput!) {\n    updateCard(input: $input) {\n      id\n    }\n  }\n": types.UpdateCardDocument,
     "\n  mutation MoveCard($input: MoveCardInput!) {\n    moveCard(input: $input) {\n      id\n      position\n      columnId\n    }\n  }\n": types.MoveCardDocument,
@@ -75,11 +81,23 @@ export function graphql(source: "\n  query Me {\n    me {\n      id\n      usern
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation CreateBoard($input: CreateBoardInput!) {\n    createBoard(input: $input) {\n      title\n      description\n    }\n  }\n"): (typeof documents)["\n  mutation CreateBoard($input: CreateBoardInput!) {\n    createBoard(input: $input) {\n      title\n      description\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query MyBoards {\n    myBoards {\n      id\n      title\n      description\n      columns {\n        cards {\n          id\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query MyBoards {\n    myBoards {\n      id\n      title\n      description\n      columns {\n        cards {\n          id\n        }\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetBoard($id: ID!) {\n    board(id: $id) {\n      id\n      title\n      description\n      labels {\n        id\n        name\n        color\n      }\n      members {\n        user {\n          id\n          username\n        }\n      }\n      columns {\n        id\n        title\n        position\n        cards {\n          id\n          title\n          description\n          position\n          dueDate\n          commentCount\n          attachmentCount\n          assignees {\n            user {\n              id\n              username\n            }\n          }\n          labels {\n            id\n            name\n            color\n          }\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetBoard($id: ID!) {\n    board(id: $id) {\n      id\n      title\n      description\n      labels {\n        id\n        name\n        color\n      }\n      members {\n        user {\n          id\n          username\n        }\n      }\n      columns {\n        id\n        title\n        position\n        cards {\n          id\n          title\n          description\n          position\n          dueDate\n          commentCount\n          attachmentCount\n          assignees {\n            user {\n              id\n              username\n            }\n          }\n          labels {\n            id\n            name\n            color\n          }\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateColumn($input: CreateColumnInput!) {\n    createColumn(input: $input) {\n      title\n    }\n  }\n"): (typeof documents)["\n  mutation CreateColumn($input: CreateColumnInput!) {\n    createColumn(input: $input) {\n      title\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n"): (typeof documents)["\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
