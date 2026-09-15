@@ -1,8 +1,6 @@
 import { LoginForm } from "@/features/auth/components/login-form"
 import { Brand } from "@/components/brand/brand"
 import Image from "next/image"
-import { GuestOnly } from "@/features/auth/components/guest-only"
-import { Suspense } from "react"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -10,10 +8,6 @@ export const metadata: Metadata = {
 }
 
 export default function LoginPage() {
-  // <Suspense fallback={null}>
-  {
-    /* <GuestOnly> */
-  }
   return (
     <>
       <div className="grid min-h-svh lg:grid-cols-[55%_45%]">
@@ -37,10 +31,4 @@ export default function LoginPage() {
       </div>
     </>
   )
-}
-{
-  /* </GuestOnly> */
-}
-{
-  /* </Suspense> */
 }
