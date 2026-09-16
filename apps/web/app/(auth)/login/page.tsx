@@ -1,13 +1,21 @@
 import { LoginForm } from "@/features/auth/components/login-form"
 import { Brand } from "@/components/brand/brand"
 import Image from "next/image"
-import { Metadata } from "next"
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Login",
 }
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams: Promise<{
+    callbackUrl?: string
+  }>
+}
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const { callbackUrl = "/" } = await searchParams
+
   return (
     <>
       <div className="grid min-h-svh lg:grid-cols-[55%_45%]">
@@ -15,7 +23,7 @@ export default function LoginPage() {
           <Brand />
           <div className="flex flex-1 items-center justify-center">
             <div className="w-full max-w-xs">
-              <LoginForm />
+              <LoginForm callbackUrl={callbackUrl} />
             </div>
           </div>
         </div>
