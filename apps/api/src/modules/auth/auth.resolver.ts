@@ -53,6 +53,7 @@ export class AuthResolver {
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/',
+      partitioned: true,
       domain: process.env.COOKIE_DOMAIN,
       maxAge: ms((process.env.JWT_EXPIRES_IN as ms.StringValue) ?? '7d'),
     });
