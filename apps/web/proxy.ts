@@ -19,7 +19,7 @@ function redirectToLogin(request: NextRequest): NextResponse {
   return NextResponse.redirect(loginUrl)
 }
 
-export async function middleware(
+export async function proxy(
   request: NextRequest
 ): Promise<NextResponse | void> {
   const { pathname } = request.nextUrl
