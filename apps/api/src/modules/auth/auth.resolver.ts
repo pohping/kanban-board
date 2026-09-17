@@ -40,7 +40,8 @@ export class AuthResolver {
     context.res.clearCookie('access_token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: 'lax',
+      // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/',
     });
 
@@ -51,10 +52,11 @@ export class AuthResolver {
     res.cookie('access_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: 'lax',
       path: '/',
       // partitioned: true,
-      domain: process.env.COOKIE_DOMAIN,
+      // domain: process.env.COOKIE_DOMAIN,
       maxAge: ms((process.env.JWT_EXPIRES_IN as ms.StringValue) ?? '7d'),
     });
   }
