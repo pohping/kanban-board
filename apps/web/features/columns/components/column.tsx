@@ -65,7 +65,7 @@ export function Column({ column, index }: ColumnProps) {
       <CardHeader>
         <CardTitle className="flex items-center">
           {column.title}
-          <span className="ml-2 rounded-full bg-slate-200 px-2 py-0.5 text-xs dark:bg-slate-700">
+          <span className="ml-2 rounded-full bg-slate-200 px-2 py-0.5 text-xs">
             {column.cards.length}
           </span>
         </CardTitle>
