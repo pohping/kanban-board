@@ -2,6 +2,13 @@ import { LoginForm } from "@/features/auth/components/login-form"
 import { Brand } from "@/components/brand/brand"
 import Image from "next/image"
 import type { Metadata } from "next"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card"
 
 export const metadata: Metadata = {
   title: "Login",
@@ -15,6 +22,27 @@ type LoginPageProps = {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { callbackUrl = "/" } = await searchParams
+
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <Card className="w-full max-w-[480px] shadow-md">
+        <CardHeader className="px-6 pt-4">
+          <Brand />
+          <div className="mt-6 space-y-2">
+            <CardTitle className="text-2xl font-semibold tracking-tight">
+              Login to your account
+            </CardTitle>
+            <CardDescription className="text-base">
+              Enter your email below to login to your account
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent className="px-8 py-6">
+          <LoginForm callbackUrl={callbackUrl} />
+        </CardContent>
+      </Card>
+    </div>
+  )
 
   return (
     <>

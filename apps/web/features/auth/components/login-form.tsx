@@ -23,7 +23,7 @@ import { loginSchema, type LoginInput } from "../schemas/auth.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AlertCircleIcon } from "lucide-react"
 import { toast } from "@workspace/ui/components/toast"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 interface LoginFormProps {
   callbackUrl: string
@@ -33,12 +33,45 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
   const router = useRouter()
   const form = useForm<LoginInput>({
     defaultValues: {
-      email: process.env.NEXT_PUBLIC_TEST_USER_EMAIL,
-      password: process.env.NEXT_PUBLIC_TEST_USER_PASSWORD,
+      email: "",
+      password: "",
     },
     resolver: zodResolver(loginSchema),
   })
   const [login, { loading, error }] = useMutation(LOGIN)
+
+  async function loginUser(input: LoginInput) {
+    try {
+      await login({ variables: { loginInput: input } })
+      router.replace(callbackUrl)
+      router.refresh()
+
+      toast.add({ type: "success", description: "Welcome back" })
+    } catch (err) {
+      console.error(err)
+      toast.add({ type: "error", description: "Something gone wrong." })
+    }
+  }
+
+  async function handleMagicLinkClick() {
+    try {
+      await login({
+        variables: {
+          loginInput: {
+            email: process.env.NEXT_PUBLIC_TEST_USER_EMAIL ?? "",
+            password: process.env.NEXT_PUBLIC_TEST_USER_PASSWORD ?? "",
+          },
+        },
+      })
+      router.replace(callbackUrl)
+      router.refresh()
+
+      toast.add({ type: "success", description: "Welcome back" })
+    } catch (err) {
+      console.error(err)
+      toast.add({ type: "error", description: "Something gone wrong." })
+    }
+  }
 
   async function handleSubmit(loginInput: LoginInput) {
     try {
@@ -54,14 +87,23 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(handleSubmit)}>
+    <form onSubmit={form.handleSubmit(loginUser)}>
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+        <p className="text-base text-muted-foreground">
+          Login with{" "}
+          <a
+            className="cursor-pointer text-card-foreground hover:underline"
+            onClick={handleMagicLinkClick}
+          >
+            Magic Link
+          </a>
+        </p>
+        {/* <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>
           <p className="text-sm text-balance text-muted text-muted-foreground">
             Enter your email below to login to your account
           </p>
-        </div>
+        </div> */}
         {error && (
           <Alert variant="destructive" className="max-w-md">
             <AlertCircleIcon />
