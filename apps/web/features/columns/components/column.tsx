@@ -71,7 +71,7 @@ export function Column({ column, index }: ColumnProps) {
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="flex-1 p-2">
+      <CardContent className="flex-1 overflow-hidden p-2">
         <div
           ref={dropRef}
           className={cn("h-full space-y-4 overflow-y-auto p-2", {
