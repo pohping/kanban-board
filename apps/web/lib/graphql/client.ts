@@ -31,11 +31,11 @@ const errorLink = new ErrorLink(({ error }) => {
     body: JSON.stringify({ query: `mutation { logout }` }),
   }).finally(() => {
     const callbackUrl = encodeURIComponent(window.location.pathname)
-    window.location.href = `/login?callbackUrl=${callbackUrl}`
+    // window.location.href = `/login?callbackUrl=${callbackUrl}`
 
-    // window.location.replace(
-    //   `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
-    // )
+    window.location.replace(
+      `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
+    )
   })
 })
 
