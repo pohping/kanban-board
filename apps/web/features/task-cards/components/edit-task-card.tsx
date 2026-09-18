@@ -261,7 +261,7 @@ export function EditTaskCard({ card, open, onOpenChange }: EditTaskCardProps) {
                         toggleAssignee(member.user.id, !!value)
                       }
                     />
-                    {member.user.username}
+                    {member.user.name}
                   </Label>
                 )
               })}
