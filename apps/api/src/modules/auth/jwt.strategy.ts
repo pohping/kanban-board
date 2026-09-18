@@ -7,7 +7,7 @@ import { Request } from 'express';
 
 export interface JwtPayload {
   sub: string;
-  username: string;
+  email: string;
 }
 
 const cookieExtractor = (req: Request): string | null => {
@@ -32,6 +32,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       .findById(payload.sub)
       .catch(() => null);
     if (!user) throw new UnauthorizedException('User no longer exists');
-    return { id: user.id, username: user.username };
+    return { id: user.id, email: user.email };
   }
 }

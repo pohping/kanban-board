@@ -26,25 +26,28 @@ export type AggregateUser = {
 
 export type UserMinAggregateOutputType = {
   id: string | null
-  username: string | null
+  name: string | null
   email: string | null
   passwordHash: string | null
+  googleId: string | null
   createdAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
   id: string | null
-  username: string | null
+  name: string | null
   email: string | null
   passwordHash: string | null
+  googleId: string | null
   createdAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
   id: number
-  username: number
+  name: number
   email: number
   passwordHash: number
+  googleId: number
   createdAt: number
   _all: number
 }
@@ -52,25 +55,28 @@ export type UserCountAggregateOutputType = {
 
 export type UserMinAggregateInputType = {
   id?: true
-  username?: true
+  name?: true
   email?: true
   passwordHash?: true
+  googleId?: true
   createdAt?: true
 }
 
 export type UserMaxAggregateInputType = {
   id?: true
-  username?: true
+  name?: true
   email?: true
   passwordHash?: true
+  googleId?: true
   createdAt?: true
 }
 
 export type UserCountAggregateInputType = {
   id?: true
-  username?: true
+  name?: true
   email?: true
   passwordHash?: true
+  googleId?: true
   createdAt?: true
   _all?: true
 }
@@ -149,9 +155,10 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UserGroupByOutputType = {
   id: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash: string | null
+  googleId: string | null
   createdAt: Date
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
@@ -178,9 +185,10 @@ export type UserWhereInput = {
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
-  username?: Prisma.StringFilter<"User"> | string
+  name?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
-  passwordHash?: Prisma.StringFilter<"User"> | string
+  passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
+  googleId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   ownedBoards?: Prisma.BoardListRelationFilter
   memberships?: Prisma.BoardMemberListRelationFilter
@@ -192,9 +200,10 @@ export type UserWhereInput = {
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  username?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  passwordHash?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   ownedBoards?: Prisma.BoardOrderByRelationAggregateInput
   memberships?: Prisma.BoardMemberOrderByRelationAggregateInput
@@ -206,12 +215,13 @@ export type UserOrderByWithRelationInput = {
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  username?: string
   email?: string
+  googleId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  passwordHash?: Prisma.StringFilter<"User"> | string
+  name?: Prisma.StringFilter<"User"> | string
+  passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   ownedBoards?: Prisma.BoardListRelationFilter
   memberships?: Prisma.BoardMemberListRelationFilter
@@ -219,13 +229,14 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   comments?: Prisma.CommentListRelationFilter
   attachments?: Prisma.AttachmentListRelationFilter
   cardsCreated?: Prisma.CardListRelationFilter
-}, "id" | "username" | "email">
+}, "id" | "email" | "googleId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  username?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  passwordHash?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -237,17 +248,19 @@ export type UserScalarWhereWithAggregatesInput = {
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
-  username?: Prisma.StringWithAggregatesFilter<"User"> | string
+  name?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
-  passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string
+  passwordHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  googleId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
 export type UserCreateInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberCreateNestedManyWithoutUserInput
@@ -259,9 +272,10 @@ export type UserCreateInput = {
 
 export type UserUncheckedCreateInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberUncheckedCreateNestedManyWithoutUserInput
@@ -273,9 +287,10 @@ export type UserUncheckedCreateInput = {
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUpdateManyWithoutUserNestedInput
@@ -287,9 +302,10 @@ export type UserUpdateInput = {
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -301,49 +317,55 @@ export type UserUncheckedUpdateInput = {
 
 export type UserCreateManyInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  username?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  username?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  username?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -354,6 +376,10 @@ export type UserScalarRelationFilter = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -446,9 +472,10 @@ export type UserUpdateOneRequiredWithoutAttachmentsNestedInput = {
 
 export type UserCreateWithoutOwnedBoardsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   memberships?: Prisma.BoardMemberCreateNestedManyWithoutUserInput
   assignedCards?: Prisma.CardAssigneeCreateNestedManyWithoutUserInput
@@ -459,9 +486,10 @@ export type UserCreateWithoutOwnedBoardsInput = {
 
 export type UserUncheckedCreateWithoutOwnedBoardsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   memberships?: Prisma.BoardMemberUncheckedCreateNestedManyWithoutUserInput
   assignedCards?: Prisma.CardAssigneeUncheckedCreateNestedManyWithoutUserInput
@@ -488,9 +516,10 @@ export type UserUpdateToOneWithWhereWithoutOwnedBoardsInput = {
 
 export type UserUpdateWithoutOwnedBoardsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberships?: Prisma.BoardMemberUpdateManyWithoutUserNestedInput
   assignedCards?: Prisma.CardAssigneeUpdateManyWithoutUserNestedInput
@@ -501,9 +530,10 @@ export type UserUpdateWithoutOwnedBoardsInput = {
 
 export type UserUncheckedUpdateWithoutOwnedBoardsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memberships?: Prisma.BoardMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedCards?: Prisma.CardAssigneeUncheckedUpdateManyWithoutUserNestedInput
@@ -514,9 +544,10 @@ export type UserUncheckedUpdateWithoutOwnedBoardsInput = {
 
 export type UserCreateWithoutMembershipsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardCreateNestedManyWithoutOwnerInput
   assignedCards?: Prisma.CardAssigneeCreateNestedManyWithoutUserInput
@@ -527,9 +558,10 @@ export type UserCreateWithoutMembershipsInput = {
 
 export type UserUncheckedCreateWithoutMembershipsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
   assignedCards?: Prisma.CardAssigneeUncheckedCreateNestedManyWithoutUserInput
@@ -556,9 +588,10 @@ export type UserUpdateToOneWithWhereWithoutMembershipsInput = {
 
 export type UserUpdateWithoutMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
   assignedCards?: Prisma.CardAssigneeUpdateManyWithoutUserNestedInput
@@ -569,9 +602,10 @@ export type UserUpdateWithoutMembershipsInput = {
 
 export type UserUncheckedUpdateWithoutMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
   assignedCards?: Prisma.CardAssigneeUncheckedUpdateManyWithoutUserNestedInput
@@ -582,9 +616,10 @@ export type UserUncheckedUpdateWithoutMembershipsInput = {
 
 export type UserCreateWithoutCardsCreatedInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberCreateNestedManyWithoutUserInput
@@ -595,9 +630,10 @@ export type UserCreateWithoutCardsCreatedInput = {
 
 export type UserUncheckedCreateWithoutCardsCreatedInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberUncheckedCreateNestedManyWithoutUserInput
@@ -624,9 +660,10 @@ export type UserUpdateToOneWithWhereWithoutCardsCreatedInput = {
 
 export type UserUpdateWithoutCardsCreatedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUpdateManyWithoutUserNestedInput
@@ -637,9 +674,10 @@ export type UserUpdateWithoutCardsCreatedInput = {
 
 export type UserUncheckedUpdateWithoutCardsCreatedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -650,9 +688,10 @@ export type UserUncheckedUpdateWithoutCardsCreatedInput = {
 
 export type UserCreateWithoutAssignedCardsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberCreateNestedManyWithoutUserInput
@@ -663,9 +702,10 @@ export type UserCreateWithoutAssignedCardsInput = {
 
 export type UserUncheckedCreateWithoutAssignedCardsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberUncheckedCreateNestedManyWithoutUserInput
@@ -692,9 +732,10 @@ export type UserUpdateToOneWithWhereWithoutAssignedCardsInput = {
 
 export type UserUpdateWithoutAssignedCardsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUpdateManyWithoutUserNestedInput
@@ -705,9 +746,10 @@ export type UserUpdateWithoutAssignedCardsInput = {
 
 export type UserUncheckedUpdateWithoutAssignedCardsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -718,9 +760,10 @@ export type UserUncheckedUpdateWithoutAssignedCardsInput = {
 
 export type UserCreateWithoutCommentsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberCreateNestedManyWithoutUserInput
@@ -731,9 +774,10 @@ export type UserCreateWithoutCommentsInput = {
 
 export type UserUncheckedCreateWithoutCommentsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberUncheckedCreateNestedManyWithoutUserInput
@@ -760,9 +804,10 @@ export type UserUpdateToOneWithWhereWithoutCommentsInput = {
 
 export type UserUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUpdateManyWithoutUserNestedInput
@@ -773,9 +818,10 @@ export type UserUpdateWithoutCommentsInput = {
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -786,9 +832,10 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
 
 export type UserCreateWithoutAttachmentsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberCreateNestedManyWithoutUserInput
@@ -799,9 +846,10 @@ export type UserCreateWithoutAttachmentsInput = {
 
 export type UserUncheckedCreateWithoutAttachmentsInput = {
   id?: string
-  username: string
+  name: string
   email: string
-  passwordHash: string
+  passwordHash?: string | null
+  googleId?: string | null
   createdAt?: Date | string
   ownedBoards?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
   memberships?: Prisma.BoardMemberUncheckedCreateNestedManyWithoutUserInput
@@ -828,9 +876,10 @@ export type UserUpdateToOneWithWhereWithoutAttachmentsInput = {
 
 export type UserUpdateWithoutAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUpdateManyWithoutUserNestedInput
@@ -841,9 +890,10 @@ export type UserUpdateWithoutAttachmentsInput = {
 
 export type UserUncheckedUpdateWithoutAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedBoards?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
   memberships?: Prisma.BoardMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -930,9 +980,10 @@ export type UserCountOutputTypeCountCardsCreatedArgs<ExtArgs extends runtime.Typ
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  username?: boolean
+  name?: boolean
   email?: boolean
   passwordHash?: boolean
+  googleId?: boolean
   createdAt?: boolean
   ownedBoards?: boolean | Prisma.User$ownedBoardsArgs<ExtArgs>
   memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>
@@ -945,29 +996,32 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  username?: boolean
+  name?: boolean
   email?: boolean
   passwordHash?: boolean
+  googleId?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  username?: boolean
+  name?: boolean
   email?: boolean
   passwordHash?: boolean
+  googleId?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   id?: boolean
-  username?: boolean
+  name?: boolean
   email?: boolean
   passwordHash?: boolean
+  googleId?: boolean
   createdAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "passwordHash" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "googleId" | "createdAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ownedBoards?: boolean | Prisma.User$ownedBoardsArgs<ExtArgs>
   memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>
@@ -992,9 +1046,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    username: string
+    name: string
     email: string
-    passwordHash: string
+    passwordHash: string | null
+    googleId: string | null
     createdAt: Date
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -1426,9 +1481,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
-  readonly username: Prisma.FieldRef<"User", 'String'>
+  readonly name: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
+  readonly googleId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     

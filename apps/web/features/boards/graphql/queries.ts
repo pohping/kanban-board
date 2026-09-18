@@ -29,7 +29,7 @@ export const GET_BOARD = graphql(`
       members {
         user {
           id
-          username
+          name
         }
       }
       columns {
@@ -47,7 +47,7 @@ export const GET_BOARD = graphql(`
           assignees {
             user {
               id
-              username
+              name
             }
           }
           labels {

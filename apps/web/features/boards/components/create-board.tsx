@@ -24,6 +24,7 @@ import { Textarea } from "@workspace/ui/components/textarea"
 import { Button } from "@workspace/ui/components/button"
 import { Spinner } from "@workspace/ui/components/spinner"
 import { useEffect } from "react"
+import { MY_BOARDS } from "../graphql/queries"
 
 interface CreateBoardProps {
   open: boolean
@@ -38,7 +39,9 @@ export function CreateBoard({ open, onOpenChange }: CreateBoardProps) {
       description: "",
     },
   })
-  const [createBoard, { loading }] = useMutation(CREATE_BOARD)
+  const [createBoard, { loading }] = useMutation(CREATE_BOARD, {
+    refetchQueries: [{ query: MY_BOARDS }],
+  })
 
   useEffect(() => {
     if (open) {

@@ -57,7 +57,7 @@ export function Navbar() {
                   >
                     <Avatar className="h-9 w-9">
                       <AvatarFallback>
-                        {user.username.slice(0, 2).toUpperCase()}
+                        {user.name.slice(0, 2).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                   </Button>

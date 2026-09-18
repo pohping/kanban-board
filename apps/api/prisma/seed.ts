@@ -98,7 +98,7 @@ async function main() {
       const username = uniqueUsername(usedUsernames);
       return prisma.user.create({
         data: {
-          username,
+          name: username,
           email: faker.internet.email({ firstName: username }).toLowerCase(),
           passwordHash,
         },
@@ -244,7 +244,7 @@ async function main() {
   console.log('');
   console.log('Test login for any seeded user:');
   console.log(`  email:    ${users[0].email}`);
-  console.log(`  username: ${users[0].username}`);
+  console.log(`  name: ${users[0].name}`);
   console.log(`  password: ${SEED_PASSWORD}`);
 }
 

@@ -121,8 +121,8 @@ input CreateColumnInput {
 
 input CreateUserInput {
   email: String!
+  name: String!
   password: String!
-  username: String!
 }
 
 """
@@ -198,12 +198,12 @@ input UpdateColumnInput {
 
 input UpdateUserInput {
   email: String
-  username: String
+  name: String
 }
 
 type User {
   createdAt: DateTime!
   email: String!
   id: ID!
-  username: String!
+  name: String!
 }

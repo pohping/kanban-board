@@ -15,22 +15,22 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  private signToken(userId: string, username: string): string {
-    const payload: JwtPayload = { sub: userId, username };
-    return this.jwtService.sign(payload);
-  }
-
   private async validateCredentials(email: string, password: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
-    if (!user) return null;
+    if (!user || !user.passwordHash) return null;
     const isValid = await bcrypt.compare(password, user.passwordHash);
     return isValid ? user : null;
+  }
+
+  signToken(userId: string, email: string): string {
+    const payload: JwtPayload = { sub: userId, email };
+    return this.jwtService.sign(payload);
   }
 
   async register(input: CreateUserInput) {
     const user = await this.usersService.create(input);
     return {
-      accessToken: this.signToken(user.id, user.username),
+      accessToken: this.signToken(user.id, user.email),
       user,
     };
   }
@@ -41,7 +41,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
     return {
-      accessToken: this.signToken(user.id, user.username),
+      accessToken: this.signToken(user.id, user.email),
       user,
     };
   }

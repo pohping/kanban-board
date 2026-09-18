@@ -407,10 +407,6 @@ export type BoardUncheckedUpdateManyWithoutOwnerNestedInput = {
   deleteMany?: Prisma.BoardScalarWhereInput | Prisma.BoardScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type BoardCreateNestedOneWithoutMembersInput = {
   create?: Prisma.XOR<Prisma.BoardCreateWithoutMembersInput, Prisma.BoardUncheckedCreateWithoutMembersInput>
   connectOrCreate?: Prisma.BoardCreateOrConnectWithoutMembersInput

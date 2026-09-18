@@ -30,7 +30,7 @@ export function BoardContent({ id }: { id: string }) {
               {data.board.members.map((member) => (
                 <Avatar key={member.user.id}>
                   <AvatarFallback>
-                    {member.user.username.slice(0, 2).toUpperCase()}
+                    {member.user.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               ))}

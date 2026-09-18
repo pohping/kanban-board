@@ -18,7 +18,7 @@ export function TaskCardAssignees({ assignees }: TaskCardAssigneesProps) {
       {visible.map((assignee) => (
         <Avatar key={assignee.user.id}>
           <AvatarFallback>
-            {assignee.user.username.slice(0, 2).toUpperCase()}
+            {assignee.user.name.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
       ))}

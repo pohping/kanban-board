@@ -5,7 +5,7 @@ export const LOGIN = graphql(`
     login(input: $loginInput) {
       user {
         id
-        username
+        email
       }
     }
   }

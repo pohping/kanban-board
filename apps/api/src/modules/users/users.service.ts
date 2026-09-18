@@ -26,22 +26,17 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { email } });
   }
 
-  findByUsername(username: string) {
-    return this.prisma.user.findUnique({ where: { username } });
-  }
-
   async create(input: CreateUserInput) {
-    const [emailTaken, usernameTaken] = await Promise.all([
-      this.prisma.user.findUnique({ where: { email: input.email } }),
-      this.prisma.user.findUnique({ where: { username: input.username } }),
-    ]);
+    const emailTaken = await this.prisma.user.findUnique({
+      where: { email: input.email },
+    });
+
     if (emailTaken) throw new ConflictException('Email is already registered');
-    if (usernameTaken) throw new ConflictException('Username is already taken');
 
     const passwordHash = await bcrypt.hash(input.password, BCRYPT_ROUNDS);
 
     return this.prisma.user.create({
-      data: { username: input.username, email: input.email, passwordHash },
+      data: { name: input.name, email: input.email, passwordHash },
     });
   }
 
@@ -56,19 +51,11 @@ export class UsersService {
         );
       }
     }
-    if (input.username) {
-      const existing = await this.prisma.user.findUnique({
-        where: { username: input.username },
-      });
-      if (existing && existing.id !== id) {
-        throw new ConflictException('Username is already taken');
-      }
-    }
 
     return this.prisma.user.update({
       where: { id },
       data: {
-        ...(input.username !== undefined ? { username: input.username } : {}),
+        ...(input.name !== undefined ? { name: input.name } : {}),
         ...(input.email !== undefined ? { email: input.email } : {}),
       },
     });
@@ -80,7 +67,7 @@ export class UsersService {
 
     const isValid = await bcrypt.compare(
       input.currentPassword,
-      user.passwordHash,
+      user.passwordHash ?? '',
     );
     if (!isValid)
       throw new UnauthorizedException('Current password is incorrect');
@@ -91,5 +78,42 @@ export class UsersService {
       data: { passwordHash: newHash },
     });
     return true;
+  }
+
+  async findOrCreateFromGoogle(input: {
+    googleId: string;
+    email: string;
+    name: string;
+  }) {
+    const existingGoogleUser = await this.prisma.user.findUnique({
+      where: {
+        googleId: input.googleId,
+      },
+    });
+
+    if (existingGoogleUser) {
+      return existingGoogleUser;
+    }
+
+    const existingUser = await this.prisma.user.findUnique({
+      where: {
+        email: input.email,
+      },
+    });
+
+    if (existingUser) {
+      return this.prisma.user.update({
+        where: { id: existingUser.id },
+        data: { googleId: input.googleId },
+      });
+    }
+
+    return this.prisma.user.create({
+      data: {
+        name: input.name,
+        email: input.email,
+        googleId: input.googleId,
+      },
+    });
   }
 }

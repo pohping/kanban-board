@@ -91,19 +91,16 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
       <FieldGroup>
         <p className="text-base text-muted-foreground">
           Login with{" "}
-          <a
-            className="cursor-pointer text-card-foreground hover:underline"
+          <Button
+            type="button"
+            variant="link"
+            className="h-auto p-0 text-base text-card-foreground"
             onClick={handleMagicLinkClick}
           >
             Magic Link
-          </a>
+          </Button>
         </p>
-        {/* <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">Login to your account</h1>
-          <p className="text-sm text-balance text-muted text-muted-foreground">
-            Enter your email below to login to your account
-          </p>
-        </div> */}
+
         {error && (
           <Alert variant="destructive" className="max-w-md">
             <AlertCircleIcon />
@@ -163,7 +160,15 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
           </Marker>
         </Field>
         <Field>
-          <Button variant="outline" size="lg" className="cursor-pointer">
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            className="cursor-pointer"
+            onClick={() => {
+              window.location.href = "/api/auth/google"
+            }}
+          >
             <FaGoogle />
             Login with Google
           </Button>

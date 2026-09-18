@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "cards" ALTER COLUMN "position" SET DATA TYPE DOUBLE PRECISION;

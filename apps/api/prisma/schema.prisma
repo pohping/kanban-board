@@ -24,9 +24,10 @@ enum BoardRole {
 
 model User {
   id           String   @id @default(uuid())
-  username     String   @unique
+  name         String
   email        String   @unique
-  passwordHash String
+  passwordHash String?
+  googleId     String?  @unique
   createdAt    DateTime @default(now())
 
   ownedBoards   Board[]        @relation("BoardOwner")

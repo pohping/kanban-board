@@ -4,7 +4,7 @@ export const ME = graphql(`
   query Me {
     me {
       id
-      username
+      name
     }
   }
 `)
