@@ -118,7 +118,7 @@ export function TaskCardDetails() {
   }
 
   if (!data) {
-    return new Error("Task card data is required to render TaskCardDetails")
+    throw new Error("Task card data is required to render TaskCardDetails")
   }
 
   return (
