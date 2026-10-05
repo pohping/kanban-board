@@ -29,7 +29,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@workspace/ui/components/avatar"
-import { Paperclip, PenLine, Send } from "lucide-react"
+import { FileCodeIcon, Paperclip, PenLine, Send, XIcon } from "lucide-react"
 import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
 import {
@@ -42,6 +42,15 @@ import { TaskCardLabelList } from "./task-card-label-list"
 import { GET_CARD } from "../../graphql/queries"
 import { Comment } from "./sections/comment"
 import { TaskCardAssigneeList } from "./task-card-assignee-list"
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@workspace/ui/components/attachment"
 
 export function TaskCardDetails() {
   const [view, setView] = useState<"labels" | "assignees" | null>(null)
@@ -236,8 +245,26 @@ export function TaskCardDetails() {
           <Accordion multiple defaultValue={["attachments", "comments"]}>
             <AccordionItem value="attachments">
               <AccordionTrigger>Attachments</AccordionTrigger>
-              <AccordionContent>
-                <p>Attachments content goes here.</p>
+              <AccordionContent className="space-y-4 py-2">
+                {data?.card.attachments.length === 0 ? (
+                  <span>No attachment</span>
+                ) : (
+                  data?.card.attachments.map((attachment) => (
+                    <Attachment key={attachment.id} className="w-full">
+                      <AttachmentMedia>
+                        <FileCodeIcon />
+                      </AttachmentMedia>
+                      <AttachmentContent>
+                        <AttachmentTitle>{attachment.filename}</AttachmentTitle>
+                      </AttachmentContent>
+                      <AttachmentActions>
+                        <AttachmentAction aria-label="Remove message-renderer.tsx">
+                          <XIcon />
+                        </AttachmentAction>
+                      </AttachmentActions>
+                    </Attachment>
+                  ))
+                )}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="comments">
