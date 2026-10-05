@@ -19,7 +19,7 @@ import { Textarea } from "@workspace/ui/components/textarea"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { CardData } from "../types"
-import { useMutation, useQuery, useApolloClient } from "@apollo/client/react"
+import { useMutation, useApolloClient } from "@apollo/client/react"
 import {
   ADD_CARD_LABEL,
   ASSIGN_CARD,

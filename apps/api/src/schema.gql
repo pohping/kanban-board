@@ -119,6 +119,12 @@ input CreateColumnInput {
   title: String!
 }
 
+input CreateLabelInput {
+  boardId: String!
+  color: String!
+  name: String!
+}
+
 input CreateUserInput {
   email: String!
   name: String!
@@ -160,8 +166,10 @@ type Mutation {
   createBoard(input: CreateBoardInput!): Board!
   createCard(input: CreateCardInput!): Card!
   createColumn(input: CreateColumnInput!): Column!
+  createLabel(input: CreateLabelInput!): Label!
   deleteCard(id: ID!): Boolean!
   deleteColumn(id: ID!): Boolean!
+  deleteLabel(id: ID!): Boolean!
   login(input: LoginInput!): AuthPayload!
   logout: Boolean!
   moveCard(input: MoveCardInput!): Card!
@@ -171,11 +179,13 @@ type Mutation {
   unassignCard(input: AssignCardInput!): Boolean!
   updateCard(input: UpdateCardInput!): Card!
   updateColumn(input: UpdateColumnInput!): Column!
+  updateLabel(input: UpdateLabelInput!): Label!
   updateProfile(input: UpdateUserInput!): User!
 }
 
 type Query {
   board(id: ID!): Board!
+  boardLabels(boardId: ID!): [Label!]!
   card(id: ID!): Card!
   cardsByColumn(columnId: ID!): [Card!]!
   me: User!
@@ -194,6 +204,12 @@ input UpdateCardInput {
 input UpdateColumnInput {
   id: String!
   title: String!
+}
+
+input UpdateLabelInput {
+  color: String
+  id: String!
+  name: String
 }
 
 input UpdateUserInput {

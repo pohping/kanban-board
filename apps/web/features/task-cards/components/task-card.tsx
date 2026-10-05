@@ -16,6 +16,7 @@ import { TaskCardMeta } from "./task-card-meta"
 import { useSortable } from "@dnd-kit/react/sortable"
 import type { CardData } from "../types"
 import { cn } from "@workspace/ui/lib/utils"
+import { useTaskCard } from "@/features/task-cards/providers/task-card-provider"
 
 interface TaskCardProps {
   index: number
@@ -31,14 +32,20 @@ export function TaskCard({ card, columnId, index }: TaskCardProps) {
     type: "card",
     accept: "card",
   })
+  const taskCard = useTaskCard()
+
+  function handleCardClick() {
+    taskCard.setCurrentId(card.id)
+  }
 
   return (
     <Card
       size="sm"
       ref={ref}
-      className={cn("shadow transition-shadow hover:shadow-md", {
+      className={cn("cursor-grab shadow transition-shadow hover:shadow-md", {
         ["opacity-50"]: isDragging,
       })}
+      onClick={handleCardClick}
     >
       <CardHeader>
         <CardTitle>{card.title}</CardTitle>

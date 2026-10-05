@@ -22,6 +22,8 @@ type Documents = {
     "\n  query GetBoard($id: ID!) {\n    board(id: $id) {\n      id\n      title\n      description\n      labels {\n        id\n        name\n        color\n      }\n      members {\n        user {\n          id\n          name\n        }\n      }\n      columns {\n        id\n        title\n        position\n        cards {\n          id\n          title\n          description\n          position\n          dueDate\n          commentCount\n          attachmentCount\n          assignees {\n            user {\n              id\n              name\n            }\n          }\n          labels {\n            id\n            name\n            color\n          }\n        }\n      }\n    }\n  }\n": typeof types.GetBoardDocument,
     "\n  mutation CreateColumn($input: CreateColumnInput!) {\n    createColumn(input: $input) {\n      title\n    }\n  }\n": typeof types.CreateColumnDocument,
     "\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n": typeof types.MoveColumnDocument,
+    "\n  mutation UpdateLabel($input: UpdateLabelInput!) {\n    updateLabel(input: $input) {\n      id\n      name\n      color\n    }\n  }\n": typeof types.UpdateLabelDocument,
+    "\n  query GetBoardLabel($id: ID!) {\n    boardLabels(boardId: $id) {\n      id\n      name\n      color\n    }\n  }\n": typeof types.GetBoardLabelDocument,
     "\n  mutation CreateCard($input: CreateCardInput!) {\n    createCard(input: $input) {\n      id\n    }\n  }\n": typeof types.CreateCardDocument,
     "\n  mutation UpdateCard($input: UpdateCardInput!) {\n    updateCard(input: $input) {\n      id\n    }\n  }\n": typeof types.UpdateCardDocument,
     "\n  mutation MoveCard($input: MoveCardInput!) {\n    moveCard(input: $input) {\n      id\n      position\n      columnId\n    }\n  }\n": typeof types.MoveCardDocument,
@@ -31,6 +33,7 @@ type Documents = {
     "\n  mutation AddCardLabel($input: CardLabelInput!) {\n    addCardLabel(input: $input)\n  }\n": typeof types.AddCardLabelDocument,
     "\n  mutation RemoveCardLabel($input: CardLabelInput!) {\n    removeCardLabel(input: $input)\n  }\n": typeof types.RemoveCardLabelDocument,
     "\n  query GetCardsByColumn($columnId: ID!) {\n    cardsByColumn(columnId: $columnId) {\n      id\n      title\n      description\n    }\n  }\n": typeof types.GetCardsByColumnDocument,
+    "\n  query GetCard($id: ID!) {\n    card(id: $id) {\n      id\n      title\n      description\n      dueDate\n      assignees {\n        user {\n          id\n          name\n        }\n      }\n      labels {\n        id\n        name\n        color\n      }\n      comments {\n        id\n        content\n        user {\n          id\n          name\n        }\n        createdAt\n      }\n      attachments {\n        id\n        filename\n        fileUrl\n        uploadedAt\n      }\n    }\n  }\n": typeof types.GetCardDocument,
 };
 const documents: Documents = {
     "\n  mutation login($loginInput: LoginInput!) {\n    login(input: $loginInput) {\n      user {\n        id\n        email\n      }\n    }\n  }\n": types.LoginDocument,
@@ -41,6 +44,8 @@ const documents: Documents = {
     "\n  query GetBoard($id: ID!) {\n    board(id: $id) {\n      id\n      title\n      description\n      labels {\n        id\n        name\n        color\n      }\n      members {\n        user {\n          id\n          name\n        }\n      }\n      columns {\n        id\n        title\n        position\n        cards {\n          id\n          title\n          description\n          position\n          dueDate\n          commentCount\n          attachmentCount\n          assignees {\n            user {\n              id\n              name\n            }\n          }\n          labels {\n            id\n            name\n            color\n          }\n        }\n      }\n    }\n  }\n": types.GetBoardDocument,
     "\n  mutation CreateColumn($input: CreateColumnInput!) {\n    createColumn(input: $input) {\n      title\n    }\n  }\n": types.CreateColumnDocument,
     "\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n": types.MoveColumnDocument,
+    "\n  mutation UpdateLabel($input: UpdateLabelInput!) {\n    updateLabel(input: $input) {\n      id\n      name\n      color\n    }\n  }\n": types.UpdateLabelDocument,
+    "\n  query GetBoardLabel($id: ID!) {\n    boardLabels(boardId: $id) {\n      id\n      name\n      color\n    }\n  }\n": types.GetBoardLabelDocument,
     "\n  mutation CreateCard($input: CreateCardInput!) {\n    createCard(input: $input) {\n      id\n    }\n  }\n": types.CreateCardDocument,
     "\n  mutation UpdateCard($input: UpdateCardInput!) {\n    updateCard(input: $input) {\n      id\n    }\n  }\n": types.UpdateCardDocument,
     "\n  mutation MoveCard($input: MoveCardInput!) {\n    moveCard(input: $input) {\n      id\n      position\n      columnId\n    }\n  }\n": types.MoveCardDocument,
@@ -50,6 +55,7 @@ const documents: Documents = {
     "\n  mutation AddCardLabel($input: CardLabelInput!) {\n    addCardLabel(input: $input)\n  }\n": types.AddCardLabelDocument,
     "\n  mutation RemoveCardLabel($input: CardLabelInput!) {\n    removeCardLabel(input: $input)\n  }\n": types.RemoveCardLabelDocument,
     "\n  query GetCardsByColumn($columnId: ID!) {\n    cardsByColumn(columnId: $columnId) {\n      id\n      title\n      description\n    }\n  }\n": types.GetCardsByColumnDocument,
+    "\n  query GetCard($id: ID!) {\n    card(id: $id) {\n      id\n      title\n      description\n      dueDate\n      assignees {\n        user {\n          id\n          name\n        }\n      }\n      labels {\n        id\n        name\n        color\n      }\n      comments {\n        id\n        content\n        user {\n          id\n          name\n        }\n        createdAt\n      }\n      attachments {\n        id\n        filename\n        fileUrl\n        uploadedAt\n      }\n    }\n  }\n": types.GetCardDocument,
 };
 
 /**
@@ -101,6 +107,14 @@ export function graphql(source: "\n  mutation MoveColumn($input: MoveColumnInput
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation UpdateLabel($input: UpdateLabelInput!) {\n    updateLabel(input: $input) {\n      id\n      name\n      color\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateLabel($input: UpdateLabelInput!) {\n    updateLabel(input: $input) {\n      id\n      name\n      color\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetBoardLabel($id: ID!) {\n    boardLabels(boardId: $id) {\n      id\n      name\n      color\n    }\n  }\n"): (typeof documents)["\n  query GetBoardLabel($id: ID!) {\n    boardLabels(boardId: $id) {\n      id\n      name\n      color\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  mutation CreateCard($input: CreateCardInput!) {\n    createCard(input: $input) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateCard($input: CreateCardInput!) {\n    createCard(input: $input) {\n      id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -134,6 +148,10 @@ export function graphql(source: "\n  mutation RemoveCardLabel($input: CardLabelI
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetCardsByColumn($columnId: ID!) {\n    cardsByColumn(columnId: $columnId) {\n      id\n      title\n      description\n    }\n  }\n"): (typeof documents)["\n  query GetCardsByColumn($columnId: ID!) {\n    cardsByColumn(columnId: $columnId) {\n      id\n      title\n      description\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetCard($id: ID!) {\n    card(id: $id) {\n      id\n      title\n      description\n      dueDate\n      assignees {\n        user {\n          id\n          name\n        }\n      }\n      labels {\n        id\n        name\n        color\n      }\n      comments {\n        id\n        content\n        user {\n          id\n          name\n        }\n        createdAt\n      }\n      attachments {\n        id\n        filename\n        fileUrl\n        uploadedAt\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetCard($id: ID!) {\n    card(id: $id) {\n      id\n      title\n      description\n      dueDate\n      assignees {\n        user {\n          id\n          name\n        }\n      }\n      labels {\n        id\n        name\n        color\n      }\n      comments {\n        id\n        content\n        user {\n          id\n          name\n        }\n        createdAt\n      }\n      attachments {\n        id\n        filename\n        fileUrl\n        uploadedAt\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

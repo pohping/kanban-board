@@ -194,6 +194,7 @@ export function Board({ board }: BoardProps) {
             />
           )
         })}
+
         <NewColumn boardId={board.id} />
       </div>
     </DragDropProvider>

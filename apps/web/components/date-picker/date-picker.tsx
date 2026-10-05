@@ -15,23 +15,31 @@ interface DatePickerProps {
   value?: Date | string | null
   onChange: (date: Date | null) => void
   placeholder?: string
+  onBlur?: () => void
 }
 
 export function DatePicker({
   value,
   onChange,
+  onBlur,
   placeholder = "Pick a date",
 }: DatePickerProps) {
   const [open, setOpen] = useState(false)
   const dateValue = value ? new Date(value) : undefined
 
-  const handleSelect = (date: Date | undefined) => {
+  function handleOpenChange(next: boolean) {
+    setOpen(next)
+    if (!next) onBlur?.()
+  }
+
+  function handleSelect(date: Date | undefined) {
     onChange(date ?? null)
     setOpen(false)
+    onBlur?.()
   }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger
         render={
           <Button

@@ -11,6 +11,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ColumnsModule } from './modules/columns/columns.module';
 import { BoardsModule } from './modules/boards/boards.module';
+import { LabelsModule } from './modules/labels/labels.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { BoardsModule } from './modules/boards/boards.module';
     CardsModule,
     ColumnsModule,
     BoardsModule,
+    LabelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

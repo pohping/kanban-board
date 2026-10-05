@@ -2,6 +2,8 @@
 
 import { RequireAuth } from "@/features/auth/components/require-auth"
 import { BoardContent } from "@/features/boards/components/board-content"
+import { BoardProvider } from "@/features/boards/providers/board-provider"
+import { TaskCardProvider } from "@/features/task-cards/providers/task-card-provider"
 import { use } from "react"
 
 export default function BoardPage({
@@ -12,7 +14,11 @@ export default function BoardPage({
   const { id } = use(params)
 
   return (
-    <BoardContent id={id} />
+    <BoardProvider>
+      <TaskCardProvider>
+        <BoardContent id={id} />
+      </TaskCardProvider>
+    </BoardProvider>
     // <RequireAuth>
     // </RequireAuth>
   )
