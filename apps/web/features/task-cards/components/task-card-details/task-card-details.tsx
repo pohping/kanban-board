@@ -51,6 +51,7 @@ import {
   AttachmentMedia,
   AttachmentTitle,
 } from "@workspace/ui/components/attachment"
+import { PageLoader } from "@/components/page-loader/page-loader"
 
 export function TaskCardDetails() {
   const [view, setView] = useState<"labels" | "assignees" | null>(null)
@@ -81,15 +82,10 @@ export function TaskCardDetails() {
     })
   }, [data, form])
 
-  if (!data?.card) {
-    return null
-  }
-  const { card } = data
-
   async function saveField<K extends keyof UpdateCardInput>(field: K) {
     const valid = await form.trigger(field)
 
-    if (!valid) return
+    if (!valid || !data) return
 
     const value = form.getValues(field)
 
@@ -100,7 +96,7 @@ export function TaskCardDetails() {
     await updateCard({
       variables: {
         input: {
-          id: card.id,
+          id: data.card.id,
           [field]: value,
         },
       },
@@ -109,6 +105,20 @@ export function TaskCardDetails() {
     form.resetField(field, {
       defaultValue: value,
     })
+  }
+
+  if (loading) {
+    return (
+      <Drawer swipeDirection="right" open={true}>
+        <DrawerContent>
+          <PageLoader />
+        </DrawerContent>
+      </Drawer>
+    )
+  }
+
+  if (!data) {
+    return new Error("Task card data is required to render TaskCardDetails")
   }
 
   return (
@@ -170,7 +180,7 @@ export function TaskCardDetails() {
                       await updateCard({
                         variables: {
                           input: {
-                            id: card.id,
+                            id: data.card.id,
                             dueDate: value,
                           },
                         },
@@ -191,14 +201,14 @@ export function TaskCardDetails() {
             <Field>
               <FieldLabel>Assignees</FieldLabel>
               <div>
-                {card.assignees.length === 0 ? (
+                {data?.card.assignees.length === 0 ? (
                   <span className="text-muted-foreground">No assignees</span>
                 ) : (
                   <div
                     className="group flex cursor-pointer items-center gap-2 py-1"
                     onClick={() => setView("assignees")}
                   >
-                    {card.assignees.map((assignee) => (
+                    {data?.card.assignees.map((assignee) => (
                       <Avatar key={assignee.user.id}>
                         <AvatarFallback>
                           {assignee.user.name.slice(0, 2).toUpperCase()}
@@ -215,14 +225,14 @@ export function TaskCardDetails() {
             <Field>
               <FieldLabel>Labels</FieldLabel>
               <div>
-                {card.labels.length === 0 ? (
+                {data?.card.labels.length === 0 ? (
                   <span className="text-muted-foreground">No labels</span>
                 ) : (
                   <div
                     className="group flex cursor-pointer flex-wrap items-center gap-2 py-1"
                     onClick={() => setView("labels")}
                   >
-                    {card.labels.map((label) => (
+                    {data?.card.labels.map((label) => (
                       <Badge
                         key={label.id}
                         variant="secondary"
@@ -271,11 +281,11 @@ export function TaskCardDetails() {
             <AccordionItem value="comments">
               <AccordionTrigger>Comments</AccordionTrigger>
               <AccordionContent className="space-y-4 py-2">
-                {data.card.comments.length === 0 ? (
+                {data?.card.comments.length === 0 ? (
                   <span className="text-muted-foreground">No comments</span>
                 ) : (
                   <>
-                    {data.card.comments.map((comment) => (
+                    {data?.card.comments.map((comment) => (
                       <Comment key={comment.id} comment={comment} />
                     ))}
                   </>
@@ -287,14 +297,17 @@ export function TaskCardDetails() {
 
         {view === "labels" && (
           <TaskCardLabelList
-            labels={card.labels}
-            cardId={card.id}
+            labels={data.card.labels}
+            cardId={data.card.id}
             onClose={() => setView(null)}
           />
         )}
 
         {view === "assignees" && (
-          <TaskCardAssigneeList card={card} onClose={() => setView(null)} />
+          <TaskCardAssigneeList
+            card={data.card}
+            onClose={() => setView(null)}
+          />
         )}
 
         <DrawerFooter>
