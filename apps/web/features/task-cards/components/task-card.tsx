@@ -52,9 +52,9 @@ export function TaskCard({ card, columnId, index }: TaskCardProps) {
         {card.description && (
           <CardDescription>{card.description}</CardDescription>
         )}
-        <CardAction>
+        {/* <CardAction>
           <TaskCardMenu card={card} />
-        </CardAction>
+        </CardAction> */}
       </CardHeader>
 
       <CardContent className="space-y-4">

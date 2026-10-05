@@ -145,6 +145,7 @@ export function TaskCardDetails() {
                 {...form.register("description", {
                   onBlur: () => saveField("description"),
                 })}
+                placeholder="Add a description..."
                 spellCheck={false}
               />
               {form.formState.errors.description && (
@@ -247,7 +248,7 @@ export function TaskCardDetails() {
               <AccordionTrigger>Attachments</AccordionTrigger>
               <AccordionContent className="space-y-4 py-2">
                 {data?.card.attachments.length === 0 ? (
-                  <span>No attachment</span>
+                  <span className="text-muted-foreground">No attachment</span>
                 ) : (
                   data?.card.attachments.map((attachment) => (
                     <Attachment key={attachment.id} className="w-full">
@@ -270,9 +271,15 @@ export function TaskCardDetails() {
             <AccordionItem value="comments">
               <AccordionTrigger>Comments</AccordionTrigger>
               <AccordionContent className="space-y-4 py-2">
-                {data.card.comments.map((comment) => (
-                  <Comment key={comment.id} comment={comment} />
-                ))}
+                {data.card.comments.length === 0 ? (
+                  <span className="text-muted-foreground">No comments</span>
+                ) : (
+                  <>
+                    {data.card.comments.map((comment) => (
+                      <Comment key={comment.id} comment={comment} />
+                    ))}
+                  </>
+                )}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
