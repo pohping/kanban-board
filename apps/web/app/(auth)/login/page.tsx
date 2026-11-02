@@ -9,6 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card"
+import { ca } from "date-fns/locale"
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert"
 
 export const metadata: Metadata = {
   title: "Login",
@@ -28,6 +34,14 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <Card className="w-full max-w-[480px] shadow-md">
         <CardHeader className="px-6 pt-4">
           <Brand />
+          {callbackUrl !== "/" && (
+            <Alert variant="destructive" className="mt-5">
+              <AlertTitle>Authentication required to access.</AlertTitle>
+              <AlertDescription>
+                Please login to continue browsing.
+              </AlertDescription>
+            </Alert>
+          )}
           <div className="mt-6 space-y-2">
             <CardTitle className="text-2xl font-semibold tracking-tight">
               Login to your account

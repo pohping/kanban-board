@@ -7,11 +7,12 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger,
 } from "@workspace/ui/components/alert-dialog"
 import { REMOVE_COMMENT } from "../graphql/mutations"
 import { useState } from "react"
-import { toast } from "@workspace/ui/components/toast"
+import { toast } from "sonner"
+import { GET_CARD } from "@/features/task-cards/graphql/queries"
+// import { toast } from "@workspace/ui/components/toast"
 
 interface DeleteCommentProps {
   commentId: string
@@ -19,22 +20,23 @@ interface DeleteCommentProps {
 
 export function DeleteComment({ commentId }: DeleteCommentProps) {
   const [open, setOpen] = useState(true)
-  const [deleteComment, { loading: deleting }] = useMutation(REMOVE_COMMENT)
+  const [deleteComment, { loading: deleting }] = useMutation(REMOVE_COMMENT, {
+    refetchQueries: [GET_CARD],
+  })
 
   async function handleDelete() {
     try {
       await deleteComment({ variables: { commentId } })
-      toast.add({ title: "Comment deleted." })
+      toast.success("Comment deleted.", { position: "top-center" })
       setOpen(false)
     } catch (err) {
       console.error(err)
-      toast.add({ title: "Error occured while deleting." })
+      toast.error("Error occured while deleting.", { position: "top-center" })
     }
   }
 
   return (
     <AlertDialog open={open} onOpenChange={(open) => setOpen(open)}>
-      <AlertDialogTrigger>Delete</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogHeader>Are you sure to delete?</AlertDialogHeader>

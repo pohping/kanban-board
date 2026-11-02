@@ -7,7 +7,7 @@ import {
 import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
 import { Button } from "@workspace/ui/components/button"
-import { Ellipsis } from "lucide-react"
+import { Ellipsis, Trash2 } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { useComment } from "../providers/comment-provider"
+import { useState } from "react"
+import { DeleteComment } from "../actions/delete-comment"
 
 interface CommentItemProps {
   comment: GetCardQuery["card"]["comments"][number]
@@ -24,6 +26,7 @@ interface CommentItemProps {
 
 export function CommentItem({ comment, currentUser }: CommentItemProps) {
   const { setEditableComment } = useComment()
+  const [deleteOpen, setDeleteOpen] = useState(false)
 
   return (
     <div className="flex gap-2">
@@ -69,11 +72,14 @@ export function CommentItem({ comment, currentUser }: CommentItemProps) {
               <DropdownMenuItem onClick={() => setEditableComment(comment)}>
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setDeleteOpen(true)}>
+                Delete
+              </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       )}
+      {deleteOpen && <DeleteComment commentId={comment.id} />}
     </div>
   )
 }
