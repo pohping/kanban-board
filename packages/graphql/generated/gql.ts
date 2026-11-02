@@ -22,6 +22,9 @@ type Documents = {
     "\n  query GetBoard($id: ID!) {\n    board(id: $id) {\n      id\n      title\n      description\n      labels {\n        id\n        name\n        color\n      }\n      members {\n        user {\n          id\n          name\n        }\n      }\n      columns {\n        id\n        title\n        position\n        cards {\n          id\n          title\n          description\n          position\n          dueDate\n          commentCount\n          attachmentCount\n          assignees {\n            user {\n              id\n              name\n            }\n          }\n          labels {\n            id\n            name\n            color\n          }\n        }\n      }\n    }\n  }\n": typeof types.GetBoardDocument,
     "\n  mutation CreateColumn($input: CreateColumnInput!) {\n    createColumn(input: $input) {\n      title\n    }\n  }\n": typeof types.CreateColumnDocument,
     "\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n": typeof types.MoveColumnDocument,
+    "\n  mutation createComment($input: CreateCommentInput!) {\n    createComment(input: $input) {\n      id\n      content\n      cardId\n    }\n  }\n": typeof types.CreateCommentDocument,
+    "\n  mutation updateComment($input: UpdateCommentInput!) {\n    updateComment(input: $input) {\n      id\n      content\n      cardId\n    }\n  }\n": typeof types.UpdateCommentDocument,
+    "\n  mutation removeComment($commentId: String!) {\n    removeComment(commentId: $commentId) {\n      id\n      content\n      cardId\n    }\n  }\n": typeof types.RemoveCommentDocument,
     "\n  mutation UpdateLabel($input: UpdateLabelInput!) {\n    updateLabel(input: $input) {\n      id\n      name\n      color\n    }\n  }\n": typeof types.UpdateLabelDocument,
     "\n  query GetBoardLabel($id: ID!) {\n    boardLabels(boardId: $id) {\n      id\n      name\n      color\n    }\n  }\n": typeof types.GetBoardLabelDocument,
     "\n  mutation CreateCard($input: CreateCardInput!) {\n    createCard(input: $input) {\n      id\n    }\n  }\n": typeof types.CreateCardDocument,
@@ -44,6 +47,9 @@ const documents: Documents = {
     "\n  query GetBoard($id: ID!) {\n    board(id: $id) {\n      id\n      title\n      description\n      labels {\n        id\n        name\n        color\n      }\n      members {\n        user {\n          id\n          name\n        }\n      }\n      columns {\n        id\n        title\n        position\n        cards {\n          id\n          title\n          description\n          position\n          dueDate\n          commentCount\n          attachmentCount\n          assignees {\n            user {\n              id\n              name\n            }\n          }\n          labels {\n            id\n            name\n            color\n          }\n        }\n      }\n    }\n  }\n": types.GetBoardDocument,
     "\n  mutation CreateColumn($input: CreateColumnInput!) {\n    createColumn(input: $input) {\n      title\n    }\n  }\n": types.CreateColumnDocument,
     "\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n": types.MoveColumnDocument,
+    "\n  mutation createComment($input: CreateCommentInput!) {\n    createComment(input: $input) {\n      id\n      content\n      cardId\n    }\n  }\n": types.CreateCommentDocument,
+    "\n  mutation updateComment($input: UpdateCommentInput!) {\n    updateComment(input: $input) {\n      id\n      content\n      cardId\n    }\n  }\n": types.UpdateCommentDocument,
+    "\n  mutation removeComment($commentId: String!) {\n    removeComment(commentId: $commentId) {\n      id\n      content\n      cardId\n    }\n  }\n": types.RemoveCommentDocument,
     "\n  mutation UpdateLabel($input: UpdateLabelInput!) {\n    updateLabel(input: $input) {\n      id\n      name\n      color\n    }\n  }\n": types.UpdateLabelDocument,
     "\n  query GetBoardLabel($id: ID!) {\n    boardLabels(boardId: $id) {\n      id\n      name\n      color\n    }\n  }\n": types.GetBoardLabelDocument,
     "\n  mutation CreateCard($input: CreateCardInput!) {\n    createCard(input: $input) {\n      id\n    }\n  }\n": types.CreateCardDocument,
@@ -104,6 +110,18 @@ export function graphql(source: "\n  mutation CreateColumn($input: CreateColumnI
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n"): (typeof documents)["\n  mutation MoveColumn($input: MoveColumnInput!) {\n    moveColumn(input: $input) {\n      id\n      position\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation createComment($input: CreateCommentInput!) {\n    createComment(input: $input) {\n      id\n      content\n      cardId\n    }\n  }\n"): (typeof documents)["\n  mutation createComment($input: CreateCommentInput!) {\n    createComment(input: $input) {\n      id\n      content\n      cardId\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation updateComment($input: UpdateCommentInput!) {\n    updateComment(input: $input) {\n      id\n      content\n      cardId\n    }\n  }\n"): (typeof documents)["\n  mutation updateComment($input: UpdateCommentInput!) {\n    updateComment(input: $input) {\n      id\n      content\n      cardId\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation removeComment($commentId: String!) {\n    removeComment(commentId: $commentId) {\n      id\n      content\n      cardId\n    }\n  }\n"): (typeof documents)["\n  mutation removeComment($commentId: String!) {\n    removeComment(commentId: $commentId) {\n      id\n      content\n      cardId\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

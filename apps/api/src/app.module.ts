@@ -12,6 +12,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ColumnsModule } from './modules/columns/columns.module';
 import { BoardsModule } from './modules/boards/boards.module';
 import { LabelsModule } from './modules/labels/labels.module';
+import { CommentsModule } from './modules/comments/comments.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { LabelsModule } from './modules/labels/labels.module';
     ColumnsModule,
     BoardsModule,
     LabelsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -40,7 +40,7 @@ import {
 } from "@workspace/ui/components/accordion"
 import { TaskCardLabelList } from "./task-card-label-list"
 import { GET_CARD } from "../../graphql/queries"
-import { Comment } from "./sections/comment"
+import { UserComment } from "./sections/user-comment"
 import { TaskCardAssigneeList } from "./task-card-assignee-list"
 import {
   Attachment,
@@ -52,6 +52,11 @@ import {
   AttachmentTitle,
 } from "@workspace/ui/components/attachment"
 import { PageLoader } from "@/components/page-loader/page-loader"
+import { AddComment } from "./sections/add-comment"
+import { CommentComposer } from "@/features/comments/actions/comment-composer"
+import { CommentList } from "@/features/comments/components/comment-list"
+import { CommentProvider } from "@/features/comments/providers/comment-provider"
+import { Toaster } from "sonner"
 
 export function TaskCardDetails() {
   const [view, setView] = useState<"labels" | "assignees" | null>(null)
@@ -127,212 +132,192 @@ export function TaskCardDetails() {
       swipeDirection="right"
       onOpenChange={() => taskCard.setCurrentId(null)}
     >
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Task Card</DrawerTitle>
-          <DrawerDescription>
-            View and edit details for this card
-          </DrawerDescription>
-        </DrawerHeader>
+      <DrawerContent className="w-120">
+        <Toaster />
+        <CommentProvider>
+          <DrawerHeader>
+            <DrawerTitle>Task Card</DrawerTitle>
+            <DrawerDescription>
+              View and edit details for this card
+            </DrawerDescription>
+          </DrawerHeader>
 
-        <div className="space-y-4 overflow-y-scroll p-4">
-          <FieldGroup>
-            <Field>
-              <FieldLabel>Title</FieldLabel>
-              <Textarea
-                {...form.register("title", {
-                  onBlur: () => saveField("title"),
-                })}
-                spellCheck={false}
-              />
-              {form.formState.errors.title && (
-                <FieldError>{form.formState.errors.title.message}</FieldError>
-              )}
-            </Field>
-            <Field>
-              <FieldLabel>Description</FieldLabel>
-              <Textarea
-                {...form.register("description", {
-                  onBlur: () => saveField("description"),
-                })}
-                placeholder="Add a description..."
-                spellCheck={false}
-              />
-              {form.formState.errors.description && (
-                <FieldError>
-                  {form.formState.errors.description.message}
-                </FieldError>
-              )}
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="dueDate">Due date</FieldLabel>
-              <Controller
-                control={form.control}
-                name="dueDate"
-                render={({ field }) => (
-                  <DatePicker
-                    value={field.value}
-                    onChange={async (date) => {
-                      const value = date ? date.toISOString() : null
-
-                      field.onChange(value)
-
-                      await updateCard({
-                        variables: {
-                          input: {
-                            id: data.card.id,
-                            dueDate: value,
-                          },
-                        },
-                      })
-
-                      form.resetField("dueDate", {
-                        defaultValue: value,
-                      })
-                    }}
-                    onBlur={field.onBlur}
-                  />
-                )}
-              />
-              {form.formState.errors.dueDate && (
-                <FieldError>{form.formState.errors.dueDate.message}</FieldError>
-              )}
-            </Field>
-            <Field>
-              <FieldLabel>Assignees</FieldLabel>
-              <div>
-                {data?.card.assignees.length === 0 ? (
-                  <span className="text-muted-foreground">No assignees</span>
-                ) : (
-                  <div
-                    className="group flex cursor-pointer items-center gap-2 py-1"
-                    onClick={() => setView("assignees")}
-                  >
-                    {data?.card.assignees.map((assignee) => (
-                      <Avatar key={assignee.user.id}>
-                        <AvatarFallback>
-                          {assignee.user.name.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                    ))}
-                    <div className="ml-auto flex items-center justify-center p-2 opacity-0 transition-opacity group-hover:opacity-100">
-                      <PenLine className="size-4 text-gray-400" />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </Field>
-            <Field>
-              <FieldLabel>Labels</FieldLabel>
-              <div>
-                {data?.card.labels.length === 0 ? (
-                  <span className="text-muted-foreground">No labels</span>
-                ) : (
-                  <div
-                    className="group flex cursor-pointer flex-wrap items-center gap-2 py-1"
-                    onClick={() => setView("labels")}
-                  >
-                    {data?.card.labels.map((label) => (
-                      <Badge
-                        key={label.id}
-                        variant="secondary"
-                        className="gap-1.5 px-2 py-3"
-                      >
-                        <span
-                          className="size-2 rounded-full"
-                          style={{ backgroundColor: label.color }}
-                        />
-                        {label.name}
-                      </Badge>
-                    ))}
-                    <div className="ml-auto flex items-center justify-center p-2 opacity-0 transition-opacity group-hover:opacity-100">
-                      <PenLine className="size-4 text-gray-400" />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </Field>
-          </FieldGroup>
-          <Accordion multiple defaultValue={["attachments", "comments"]}>
-            <AccordionItem value="attachments">
-              <AccordionTrigger>Attachments</AccordionTrigger>
-              <AccordionContent className="space-y-4 py-2">
-                {data?.card.attachments.length === 0 ? (
-                  <span className="text-muted-foreground">No attachment</span>
-                ) : (
-                  data?.card.attachments.map((attachment) => (
-                    <Attachment key={attachment.id} className="w-full">
-                      <AttachmentMedia>
-                        <FileCodeIcon />
-                      </AttachmentMedia>
-                      <AttachmentContent>
-                        <AttachmentTitle>{attachment.filename}</AttachmentTitle>
-                      </AttachmentContent>
-                      <AttachmentActions>
-                        <AttachmentAction aria-label="Remove message-renderer.tsx">
-                          <XIcon />
-                        </AttachmentAction>
-                      </AttachmentActions>
-                    </Attachment>
-                  ))
-                )}
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="comments">
-              <AccordionTrigger>Comments</AccordionTrigger>
-              <AccordionContent className="space-y-4 py-2">
-                {data?.card.comments.length === 0 ? (
-                  <span className="text-muted-foreground">No comments</span>
-                ) : (
-                  <>
-                    {data?.card.comments.map((comment) => (
-                      <Comment key={comment.id} comment={comment} />
-                    ))}
-                  </>
-                )}
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-
-        {view === "labels" && (
-          <TaskCardLabelList
-            labels={data.card.labels}
-            cardId={data.card.id}
-            onClose={() => setView(null)}
-          />
-        )}
-
-        {view === "assignees" && (
-          <TaskCardAssigneeList
-            card={data.card}
-            onClose={() => setView(null)}
-          />
-        )}
-
-        <DrawerFooter>
-          <form>
+          <div className="space-y-4 overflow-y-scroll p-4">
             <FieldGroup>
-              <div className="flex gap-3">
-                <Avatar>
-                  <AvatarImage src="" alt="" />
-                  <AvatarFallback>M</AvatarFallback>
-                </Avatar>
-                <Field>
-                  <Textarea placeholder="Add a comment..." />
-                  <div className="flex justify-end gap-2">
-                    <Button>
-                      <Paperclip />
-                    </Button>
-                    <Button>
-                      <Send />
-                    </Button>
-                  </div>
-                </Field>
-              </div>
+              <Field>
+                <FieldLabel>Title</FieldLabel>
+                <Textarea
+                  {...form.register("title", {
+                    onBlur: () => saveField("title"),
+                  })}
+                  spellCheck={false}
+                />
+                {form.formState.errors.title && (
+                  <FieldError>{form.formState.errors.title.message}</FieldError>
+                )}
+              </Field>
+              <Field>
+                <FieldLabel>Description</FieldLabel>
+                <Textarea
+                  {...form.register("description", {
+                    onBlur: () => saveField("description"),
+                  })}
+                  placeholder="Add a description..."
+                  spellCheck={false}
+                />
+                {form.formState.errors.description && (
+                  <FieldError>
+                    {form.formState.errors.description.message}
+                  </FieldError>
+                )}
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="dueDate">Due date</FieldLabel>
+                <Controller
+                  control={form.control}
+                  name="dueDate"
+                  render={({ field }) => (
+                    <DatePicker
+                      value={field.value}
+                      onChange={async (date) => {
+                        const value = date ? date.toISOString() : null
+
+                        field.onChange(value)
+
+                        await updateCard({
+                          variables: {
+                            input: {
+                              id: data.card.id,
+                              dueDate: value,
+                            },
+                          },
+                        })
+
+                        form.resetField("dueDate", {
+                          defaultValue: value,
+                        })
+                      }}
+                      onBlur={field.onBlur}
+                    />
+                  )}
+                />
+                {form.formState.errors.dueDate && (
+                  <FieldError>
+                    {form.formState.errors.dueDate.message}
+                  </FieldError>
+                )}
+              </Field>
+              <Field>
+                <FieldLabel>Assignees</FieldLabel>
+                <div>
+                  {data?.card.assignees.length === 0 ? (
+                    <span className="text-muted-foreground">No assignees</span>
+                  ) : (
+                    <div
+                      className="group flex cursor-pointer items-center gap-2 py-1"
+                      onClick={() => setView("assignees")}
+                    >
+                      {data?.card.assignees.map((assignee) => (
+                        <Avatar key={assignee.user.id}>
+                          <AvatarFallback>
+                            {assignee.user.name.slice(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                      ))}
+                      <div className="ml-auto flex items-center justify-center p-2 opacity-0 transition-opacity group-hover:opacity-100">
+                        <PenLine className="size-4 text-gray-400" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Field>
+              <Field>
+                <FieldLabel>Labels</FieldLabel>
+                <div>
+                  {data?.card.labels.length === 0 ? (
+                    <span className="text-muted-foreground">No labels</span>
+                  ) : (
+                    <div
+                      className="group flex cursor-pointer flex-wrap items-center gap-2 py-1"
+                      onClick={() => setView("labels")}
+                    >
+                      {data?.card.labels.map((label) => (
+                        <Badge
+                          key={label.id}
+                          variant="secondary"
+                          className="gap-1.5 px-2 py-3"
+                        >
+                          <span
+                            className="size-2 rounded-full"
+                            style={{ backgroundColor: label.color }}
+                          />
+                          {label.name}
+                        </Badge>
+                      ))}
+                      <div className="ml-auto flex items-center justify-center p-2 opacity-0 transition-opacity group-hover:opacity-100">
+                        <PenLine className="size-4 text-gray-400" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Field>
             </FieldGroup>
-          </form>
-        </DrawerFooter>
+            <Accordion multiple defaultValue={["attachments", "comments"]}>
+              <AccordionItem value="attachments">
+                <AccordionTrigger>Attachments</AccordionTrigger>
+                <AccordionContent className="space-y-4 py-2">
+                  {data?.card.attachments.length === 0 ? (
+                    <span className="text-muted-foreground">No attachment</span>
+                  ) : (
+                    data?.card.attachments.map((attachment) => (
+                      <Attachment key={attachment.id} className="w-full">
+                        <AttachmentMedia>
+                          <FileCodeIcon />
+                        </AttachmentMedia>
+                        <AttachmentContent>
+                          <AttachmentTitle>
+                            {attachment.filename}
+                          </AttachmentTitle>
+                        </AttachmentContent>
+                        <AttachmentActions>
+                          <AttachmentAction aria-label="Remove message-renderer.tsx">
+                            <XIcon />
+                          </AttachmentAction>
+                        </AttachmentActions>
+                      </Attachment>
+                    ))
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="comments">
+                <AccordionTrigger>Comments</AccordionTrigger>
+                <AccordionContent>
+                  <CommentList comments={data.card.comments} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+
+          {view === "labels" && (
+            <TaskCardLabelList
+              labels={data.card.labels}
+              cardId={data.card.id}
+              onClose={() => setView(null)}
+            />
+          )}
+
+          {view === "assignees" && (
+            <TaskCardAssigneeList
+              card={data.card}
+              onClose={() => setView(null)}
+            />
+          )}
+
+          <DrawerFooter>
+            <CommentComposer cardId={data.card.id} />
+            {/* <AddComment cardId={data.card.id} /> */}
+          </DrawerFooter>
+        </CommentProvider>
       </DrawerContent>
     </Drawer>
   )

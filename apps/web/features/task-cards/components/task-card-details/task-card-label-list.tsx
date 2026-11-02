@@ -84,7 +84,7 @@ export function TaskCardLabelList({
 
   return (
     <Drawer open={true} swipeDirection="right" onOpenChange={handleOpenChange}>
-      <DrawerContent>
+      <DrawerContent className="w-120">
         <DrawerHeader>
           <DrawerTitle>Labels</DrawerTitle>
           <DrawerDescription>

@@ -103,7 +103,7 @@ export function TaskCardEditLabel({
 
   return (
     <Drawer open={true} swipeDirection="right" onOpenChange={onOpenChange}>
-      <DrawerContent>
+      <DrawerContent className="w-120">
         <DrawerHeader>
           <DrawerTitle>Edit Label</DrawerTitle>
           <DrawerDescription>

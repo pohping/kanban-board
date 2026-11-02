@@ -119,6 +119,11 @@ input CreateColumnInput {
   title: String!
 }
 
+input CreateCommentInput {
+  cardId: String!
+  content: String!
+}
+
 input CreateLabelInput {
   boardId: String!
   color: String!
@@ -166,6 +171,7 @@ type Mutation {
   createBoard(input: CreateBoardInput!): Board!
   createCard(input: CreateCardInput!): Card!
   createColumn(input: CreateColumnInput!): Column!
+  createComment(input: CreateCommentInput!): Comment!
   createLabel(input: CreateLabelInput!): Label!
   deleteCard(id: ID!): Boolean!
   deleteColumn(id: ID!): Boolean!
@@ -176,9 +182,11 @@ type Mutation {
   moveColumn(input: MoveColumnInput!): Column!
   register(input: CreateUserInput!): AuthPayload!
   removeCardLabel(input: CardLabelInput!): Boolean!
+  removeComment(commentId: String!): Comment!
   unassignCard(input: AssignCardInput!): Boolean!
   updateCard(input: UpdateCardInput!): Card!
   updateColumn(input: UpdateColumnInput!): Column!
+  updateComment(input: UpdateCommentInput!): Comment!
   updateLabel(input: UpdateLabelInput!): Label!
   updateProfile(input: UpdateUserInput!): User!
 }
@@ -204,6 +212,11 @@ input UpdateCardInput {
 input UpdateColumnInput {
   id: String!
   title: String!
+}
+
+input UpdateCommentInput {
+  content: String!
+  id: String!
 }
 
 input UpdateLabelInput {

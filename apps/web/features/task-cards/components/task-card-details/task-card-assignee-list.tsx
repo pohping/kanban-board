@@ -65,7 +65,7 @@ export function TaskCardAssigneeList({
 
   return (
     <Drawer open={true} swipeDirection="right" onOpenChange={onClose}>
-      <DrawerContent>
+      <DrawerContent className="w-120">
         <DrawerHeader>
           <DrawerTitle>Assignees</DrawerTitle>
           <DrawerDescription>Manage assignees for this task</DrawerDescription>
