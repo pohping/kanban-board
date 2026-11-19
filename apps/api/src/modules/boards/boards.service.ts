@@ -34,6 +34,37 @@ export class BoardsService {
     return board;
   }
 
+  addBoardMember(boardId: string, userId: string) {
+    if (!boardId || !userId) {
+      throw new NotFoundException('Board ID and User ID are required');
+    }
+
+    return this.prisma.boardMember.create({
+      data: { boardId, userId, role: 'member' },
+    });
+  }
+
+  updateBoardMembers(boardId: string, userIds: string[]) {
+    return this.prisma.$transaction(async (prisma) => {
+      // Remove members not in the new list
+      await prisma.boardMember.deleteMany({
+        where: { boardId, userId: { notIn: userIds } },
+      });
+
+      // Add new members
+      const existingMembers = await prisma.boardMember.findMany({
+        where: { boardId, userId: { in: userIds } },
+        select: { userId: true },
+      });
+      const existingUserIds = existingMembers.map((m) => m.userId);
+      const newUserIds = userIds.filter((id) => !existingUserIds.includes(id));
+
+      await prisma.boardMember.createMany({
+        data: newUserIds.map((userId) => ({ boardId, userId, role: 'member' })),
+      });
+    });
+  }
+
   async findOne(id: string, userId: string) {
     const board = await this.prisma.board.findUnique({ where: { id } });
     if (!board) {

@@ -26,6 +26,10 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { email } });
   }
 
+  findAll() {
+    return this.prisma.user.findMany();
+  }
+
   async create(input: CreateUserInput) {
     const emailTaken = await this.prisma.user.findUnique({
       where: { email: input.email },

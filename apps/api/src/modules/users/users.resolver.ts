@@ -20,6 +20,12 @@ export class UsersResolver {
     return this.usersService.findById(user.id);
   }
 
+  @Query(() => [User], { name: 'users' })
+  @UseGuards(GqlAuthGuard)
+  findAll() {
+    return this.usersService.findAll();
+  }
+
   @Query(() => User, { name: 'user' })
   @UseGuards(GqlAuthGuard)
   findOneBy(@Args('id', { type: () => ID }) id: string) {

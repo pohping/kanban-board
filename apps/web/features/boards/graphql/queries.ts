@@ -30,7 +30,9 @@ export const GET_BOARD = graphql(`
         user {
           id
           name
+          email
         }
+        role
       }
       columns {
         id

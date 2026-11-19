@@ -47,6 +47,14 @@ export class BoardsResolver {
     return this.boardsService.create(input, user.id);
   }
 
+  @Mutation(() => BoardMember)
+  addBoardMember(
+    @Args('boardId', { type: () => ID }) boardId: string,
+    @Args('userId', { type: () => ID }) userId: string,
+  ) {
+    return this.boardsService.addBoardMember(boardId, userId);
+  }
+
   @ResolveField(() => User)
   owner(@Parent() board: Board) {
     return this.boardsService.getOwner(board.ownerId);

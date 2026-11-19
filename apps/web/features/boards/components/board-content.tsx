@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar/navbar"
 import { Board } from "./board"
 import { Avatar, AvatarFallback } from "@workspace/ui/components/avatar"
 import { Button } from "@workspace/ui/components/button"
+import { BoardMembers } from "./board-members"
 
 export function BoardContent({ id }: { id: string }) {
   const { data, loading, error } = useQuery(GET_BOARD, {
@@ -25,7 +26,8 @@ export function BoardContent({ id }: { id: string }) {
       <div>
         <div className="container mx-auto flex items-center justify-between p-3">
           <h2 className="text-xl font-medium">{data.board.title}</h2>
-          <div className="flex gap-2">
+          <BoardMembers members={data.board.members} boardId={data.board.id} />
+          {/* <div className="flex gap-2">
             <div className="flex">
               {data.board.members.map((member) => (
                 <Avatar key={member.user.id}>

@@ -165,6 +165,7 @@ input MoveColumnInput {
 }
 
 type Mutation {
+  addBoardMember(boardId: ID!, userId: ID!): BoardMember!
   addCardLabel(input: CardLabelInput!): Boolean!
   assignCard(input: AssignCardInput!): CardAssignee!
   changePassword(input: ChangePasswordInput!): Boolean!
@@ -199,6 +200,7 @@ type Query {
   me: User!
   myBoards: [Board!]!
   user(id: ID!): User!
+  users: [User!]!
 }
 
 input UpdateCardInput {
